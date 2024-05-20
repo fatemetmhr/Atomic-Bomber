@@ -1,0 +1,25 @@
+.MainPane {
+    -fx-background-image: url("../Images/Backgrounds/background.jpg");
+    -fx-min-width: 1291px;
+    -fx-max-width: 1291px;
+    -fx-min-height: 849px;
+    -fx-max-height: 849px;
+}
+
+.SettingPane {
+    //-fx-background-color: #bc99ec;
+    -fx-background-image: url("../Images/Backgrounds/blured.jpg");
+    -fx-min-width: 1291px;
+    -fx-max-width: 1291px;
+    -fx-min-height: 849px;
+    -fx-max-height: 849px;
+}
+
+.Button{
+    -fx-text-size: 20px;
+}
+
+.Title{
+    -fx-text-size: 70px;
+    -fx-text-bold: true;
+}
