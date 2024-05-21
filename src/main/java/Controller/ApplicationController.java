@@ -3,6 +3,7 @@ package Controller;
 import View.MainMenu;
 import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -84,5 +85,21 @@ public class ApplicationController {
         } else {
             scene.getRoot().setEffect(null);
         }
+    }
+
+    public static KeyCode getDownKeyCode() {
+        return isWASD ? KeyCode.S : KeyCode.DOWN;
+    }
+
+    public static KeyCode getUpKeyCode() {
+        return isWASD ? KeyCode.W : KeyCode.UP;
+    }
+
+    public static KeyCode getLeftKeyCode() {
+        return isWASD ? KeyCode.A : KeyCode.LEFT;
+    }
+
+    public static KeyCode getRightKeyCode() {
+        return isWASD ? KeyCode.D : KeyCode.RIGHT;
     }
 }

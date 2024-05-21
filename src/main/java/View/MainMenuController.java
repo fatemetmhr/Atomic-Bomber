@@ -20,6 +20,7 @@ public class MainMenuController {
 
 
     public void startNewGame(MouseEvent mouseEvent) {
+        MenuController.goToGame(MainMenu.stage);
     }
 
     public void continueSavedGame(MouseEvent mouseEvent) {

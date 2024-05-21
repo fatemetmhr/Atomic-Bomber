@@ -48,4 +48,13 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+
+    public static void goToGame(Stage stage) {
+        Game game = new Game();
+        try {
+            game.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
