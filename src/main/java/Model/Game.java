@@ -14,6 +14,13 @@ public class Game {
     private ArrayList<Bullet> bullets = new ArrayList<>();
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private Pane pane;
+    private int wave = 1;
+    private int kills = 0;
+    private boolean upKey = false;
+    private boolean downDown = false;
+    private boolean leftKey = false;
+    private boolean rightKey = false;
+
 
 
 
@@ -23,6 +30,12 @@ public class Game {
         this.pane = root;
         plane = new Plane(this);
         root.getChildren().add(plane);
+        createWave();
+    }
+
+    private void createWave() {
+        Building building = new Building(this, 950, 600);
+        building = new Building(this, 400, 550);
     }
 
 
@@ -56,8 +69,6 @@ public class Game {
 
     public void addTank() {
         Tank tank = new Tank(this);
-        pane.getChildren().add(tank);
-        obstacles.add(tank);
     }
 
     public ArrayList<Bullet> getBulletsCopy() {
@@ -67,4 +78,50 @@ public class Game {
     public ArrayList<Obstacle> getAllObstaclesCopy() {
         return new ArrayList<>(obstacles);
     }
+
+    public boolean hasAnyTank() {
+        for (Obstacle obstacle : obstacles) {
+            if (obstacle instanceof Tank)
+                return true;
+        }
+        return false;
+    }
+
+    public void increaseKills(int score) {
+        kills += score;
+    }
+
+    public boolean getUpKey() {
+        return upKey;
+    }
+
+    public void setUpKey(boolean upKey) {
+        this.upKey = upKey;
+    }
+
+    public boolean getDownDown() {
+        return downDown;
+    }
+
+    public void setDownDown(boolean downDown) {
+        this.downDown = downDown;
+    }
+
+    public boolean getLeftKey() {
+        return leftKey;
+    }
+
+    public void setLeftKey(boolean leftKey) {
+        this.leftKey = leftKey;
+    }
+
+    public boolean getRightKey() {
+        return rightKey;
+    }
+
+    public void setRightKey(boolean rightKey) {
+        this.rightKey = rightKey;
+    }
+
+
 }

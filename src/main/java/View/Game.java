@@ -29,6 +29,7 @@ public class Game extends Application {
         scene.getStylesheets().add(getClass().getResource("/CSS/style.css").toExternalForm());
         Controller.GameController.setGameSettings(root);
         scene.setOnKeyPressed(event -> Controller.GameController.keyPressed(event.getCode()));
+        scene.setOnKeyReleased(event -> Controller.GameController.keyReleased(event.getCode()));
         stage.setScene(scene);
         stage.show();
     }

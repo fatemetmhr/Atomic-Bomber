@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.ApplicationController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -34,6 +35,15 @@ public class Plane extends Rectangle {
     }
 
     public void passTime() {
+        if (game.getDownDown()) {
+            makeDirCloseTo(Math.PI / 2);
+        } else if (game.getUpKey()) {
+            makeDirCloseTo(3 * Math.PI / 2);
+        } else if (game.getLeftKey()) {
+            makeDirCloseTo(Math.PI);
+        } else if (game.getRightKey()) {
+            makeDirCloseTo(0);
+        }
         move(speed);
         if(getX() < -sizeX)
             setX(1291);
@@ -73,7 +83,7 @@ public class Plane extends Rectangle {
     }
 
     public void makeDirCloseTo(double v) {
-        int scale = 20;
+        int scale = 180;
         if(dir == v)
             return;
         if(getMinRotationDistance(dir, v) < getMinRotationDistance(v, dir))
