@@ -1,5 +1,7 @@
 package Model;
 
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -8,13 +10,17 @@ public class Game {
     static ArrayList<Game> allGames = new ArrayList<>();
     private User user;
     private Plane plane;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private Pane pane;
 
 
 
-    public Game(User user) {
+    public Game(User user, Pane root) {
         this.user = user;
         allGames.add(this);
-        plane = new Plane();
+        this.pane = root;
+        plane = new Plane(this);
+        root.getChildren().add(plane);
     }
 
 
@@ -32,5 +38,13 @@ public class Game {
 
     public void setPlane(Plane plane) {
         this.plane = plane;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public Pane getPane() {
+        return pane;
     }
 }
