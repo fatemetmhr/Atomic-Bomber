@@ -48,7 +48,7 @@ public class Plane extends Rectangle {
     public void setDir(double v) {
         v += 10 * Math.PI;
         v %= 2 * Math.PI;
-        if(Math.abs(v) < 0.0001)
+        if(Math.abs(v) < 0.0001 || Math.abs(v - 2 * Math.PI) < 0.0001)
             v = 0;
         if(Math.abs(v - Math.PI) < 0.0001)
             v = Math.PI;
@@ -89,7 +89,6 @@ public class Plane extends Rectangle {
     }
 
     public void shoot() {
-        System.out.println(getX() + " " + getY());
         Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
         game.getBullets().add(bullet);
         game.getPane().getChildren().add(bullet);

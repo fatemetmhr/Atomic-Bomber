@@ -6,8 +6,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Bullet extends Rectangle {
 
-    public static int sizeX = 205 / 7;
-    public static int sizeY = 105 / 7;
+    public static int sizeX = 166 / 7;
+    public static int sizeY = 62 / 7;
 
     private static double speed = 5;
     private double speedX;
@@ -31,6 +31,23 @@ public class Bullet extends Rectangle {
         move();
         speedY += 0.1;
         setRotate(Math.toDegrees(Math.atan2(speedY, speedX)));
+        checkForCollision();
     }
+
+    private void checkForCollision() {
+        for(Obstacle obstacle : Game.getCurrentGame().getAllObstaclesCopy()){
+            if(getBoundsInParent().intersects(obstacle.getBoundsInParent())){
+                obstacle.removeObject();
+                this.remove();
+                return;
+            }
+        }
+    }
+
+    private void remove() {
+        Game.getCurrentGame().getBullets().remove(this);
+        Game.getCurrentGame().getPane().getChildren().remove(this);
+    }
+
 
 }

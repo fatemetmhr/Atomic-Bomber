@@ -26,13 +26,24 @@ public class GameController {
 
     private static void passTime() {
         Game.getCurrentGame().getPlane().passTime();
-        for (Bullet bullet : Game.getCurrentGame().getBullets()) {
+        for (Bullet bullet : Game.getCurrentGame().getBulletsCopy()) {
             bullet.passTime();
+        }
+        try{
+            for (Obstacle obstacle : Game.getCurrentGame().getAllObstaclesCopy()) {
+                obstacle.passTime();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.toString());
+            System.out.println(e.getMessage());
+            System.out.println(Game.getCurrentGame().getAllObstacles().size());
         }
     }
 
     public static void keyPressed(KeyCode code) {
-        Plane plane = Game.getCurrentGame().getPlane();
+        Game game = Game.getCurrentGame();
+        Plane plane = game.getPlane();
         if (code == ApplicationController.getDownKeyCode()) {
             plane.makeDirCloseTo(Math.PI / 2);
         } else if (code == ApplicationController.getUpKeyCode()) {
@@ -43,6 +54,8 @@ public class GameController {
             plane.makeDirCloseTo(0);
         } else if(code == KeyCode.SPACE){
             plane.shoot();
+        } else if(code == KeyCode.T){
+            game.addTank();
         }
 
     }

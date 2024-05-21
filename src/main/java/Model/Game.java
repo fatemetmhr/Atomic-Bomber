@@ -3,6 +3,7 @@ package Model;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Game {
 
@@ -11,6 +12,7 @@ public class Game {
     private User user;
     private Plane plane;
     private ArrayList<Bullet> bullets = new ArrayList<>();
+    private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private Pane pane;
 
 
@@ -46,5 +48,23 @@ public class Game {
 
     public Pane getPane() {
         return pane;
+    }
+
+    public ArrayList<Obstacle> getAllObstacles() {
+        return obstacles;
+    }
+
+    public void addTank() {
+        Tank tank = new Tank(this);
+        pane.getChildren().add(tank);
+        obstacles.add(tank);
+    }
+
+    public ArrayList<Bullet> getBulletsCopy() {
+        return new ArrayList<>(bullets);
+    }
+
+    public ArrayList<Obstacle> getAllObstaclesCopy() {
+        return new ArrayList<>(obstacles);
     }
 }

@@ -6,6 +6,14 @@
     -fx-max-height: 849px;
 }
 
+.GamePane {
+    -fx-background-image: url("../Images/Backgrounds/city.jpeg");
+    -fx-min-width: 1291px;
+    -fx-max-width: 1291px;
+    -fx-min-height: 849px;
+    -fx-max-height: 849px;
+}
+
 .SettingPane {
     //-fx-background-color: #bc99ec;
     -fx-background-image: url("../Images/Backgrounds/blured.jpg");
