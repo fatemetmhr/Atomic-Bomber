@@ -27,8 +27,15 @@ public class GameController {
     }
 
     private static void passTime() {
-        if(!Game.getCurrentGame().hasAnyTank())
-            Game.getCurrentGame().addTank();
+        Game game = Game.getCurrentGame();
+        if(!game.isAnyMovingObstacleInFrame()) {
+            Random random = new Random();
+            int randomInt = random.nextInt(2);
+            if(randomInt == 0 && game.numberOfTanks() < 3)
+                game.addTank();
+            if(randomInt == 1 && game.numberOfTrucks() < 2)
+                game.addTruck();
+        }
         Game.getCurrentGame().getPlane().passTime();
         for (Bullet bullet : Game.getCurrentGame().getBulletsCopy()) {
             bullet.passTime();
@@ -50,15 +57,20 @@ public class GameController {
         Plane plane = game.getPlane();
         if (code == ApplicationController.getDownKeyCode()) {
             game.setDownDown(true);
-        } else if (code == ApplicationController.getUpKeyCode()) {
+        }
+        if (code == ApplicationController.getUpKeyCode()) {
             game.setUpKey(true);
-        } else if (code == ApplicationController.getLeftKeyCode()) {
+        }
+        if (code == ApplicationController.getLeftKeyCode()) {
             game.setLeftKey(true);
-        } else if (code == ApplicationController.getRightKeyCode()) {
+        }
+        if (code == ApplicationController.getRightKeyCode()) {
             game.setRightKey(true);
-        } else if(code == KeyCode.SPACE){
+        }
+        if(code == KeyCode.SPACE){
             plane.shoot();
-        } else if(code == KeyCode.T){
+        }
+        if(code == KeyCode.T){
             game.addTank();
         }
 
@@ -69,11 +81,14 @@ public class GameController {
         Plane plane = game.getPlane();
         if (code == ApplicationController.getDownKeyCode()) {
             game.setDownDown(false);
-        } else if (code == ApplicationController.getUpKeyCode()) {
+        }
+        if (code == ApplicationController.getUpKeyCode()) {
             game.setUpKey(false);
-        } else if (code == ApplicationController.getLeftKeyCode()) {
+        }
+        if (code == ApplicationController.getLeftKeyCode()) {
             game.setLeftKey(false);
-        } else if (code == ApplicationController.getRightKeyCode()) {
+        }
+        if (code == ApplicationController.getRightKeyCode()) {
             game.setRightKey(false);
         }
     }

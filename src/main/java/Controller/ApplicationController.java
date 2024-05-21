@@ -80,7 +80,7 @@ public class ApplicationController {
     public static void applyColorAffects(Scene scene){
         if (isBlackAndWhite) {
             ColorAdjust colorAdjust = new ColorAdjust();
-            colorAdjust.setSaturation(-0.7);
+            colorAdjust.setSaturation(-1);
             scene.getRoot().setEffect(colorAdjust);
         } else {
             scene.getRoot().setEffect(null);

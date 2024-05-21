@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ApplicationController;
 import Model.Plane;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -28,6 +29,7 @@ public class Game extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/CSS/style.css").toExternalForm());
         Controller.GameController.setGameSettings(root);
+        ApplicationController.applyColorAffects(scene);
         scene.setOnKeyPressed(event -> Controller.GameController.keyPressed(event.getCode()));
         scene.setOnKeyReleased(event -> Controller.GameController.keyReleased(event.getCode()));
         stage.setScene(scene);

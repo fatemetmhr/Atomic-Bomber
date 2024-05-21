@@ -5,6 +5,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 public class Plane extends Rectangle {
 
     static int sizeX = 890 / 8;
@@ -54,6 +56,7 @@ public class Plane extends Rectangle {
         if(getY() > 849 - sizeY)
             setDir(-dir);
     }
+
 
     public void setDir(double v) {
         v += 10 * Math.PI;

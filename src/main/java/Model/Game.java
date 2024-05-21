@@ -36,6 +36,10 @@ public class Game {
     private void createWave() {
         Building building = new Building(this, 950, 600);
         building = new Building(this, 400, 550);
+        Bunker bunker = new Bunker(this, 670, 650);
+        Tree tree = new Tree(this, 30, 650);
+        tree = new Tree(this, 1100, 630);
+        tree = new Tree(this, 530, 650);
     }
 
 
@@ -79,12 +83,13 @@ public class Game {
         return new ArrayList<>(obstacles);
     }
 
-    public boolean hasAnyTank() {
+    public int numberOfTanks() {
+        int cnt = 0;
         for (Obstacle obstacle : obstacles) {
             if (obstacle instanceof Tank)
-                return true;
+                cnt++;
         }
-        return false;
+        return cnt;
     }
 
     public void increaseKills(int score) {
@@ -124,4 +129,25 @@ public class Game {
     }
 
 
+    public int numberOfTrucks() {
+        int cnt = 0;
+        for (Obstacle obstacle : obstacles) {
+            if (obstacle instanceof Truck)
+                cnt++;
+        }
+        return cnt;
+    }
+
+    public void addTruck() {
+        Truck truck = new Truck(this);
+    }
+
+    public boolean isAnyMovingObstacleInFrame() {
+        for (Obstacle obstacle : obstacles)
+            if(obstacle instanceof Truck || obstacle instanceof Tank){
+                if (obstacle.getX() < 200 || obstacle.getX() > 1101)
+                    return true;
+        }
+        return false;
+    }
 }
