@@ -57,4 +57,13 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+
+    public static void goToGameOver(Stage stage) {
+        GameOver gameOver = new GameOver();
+        try {
+            gameOver.start(stage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -31,8 +31,6 @@ public class GameController {
 
     public void showKillsAndAccuracy(int kills, double accuracy){
         this.kills.setText("Number of Kills: " + kills);
-        int accuracyInt = (int) (accuracy * 100);
-        accuracy = (double) accuracyInt / 100;
         this.accuracy.setText("Accuracy: " + accuracy + "%");
     }
 
@@ -40,7 +38,7 @@ public class GameController {
         this.clusters.setText("Remained Clusters: " + clusters);
     }
 
-    public void showRadioactives(int radioactive){
+    public void showRadioactive(int radioactive){
         this.radioactive.setText("Remained Radioactive: " + radioactive);
     }
 

@@ -14,6 +14,9 @@ public abstract class Shot extends Rectangle {
         setY(y);
         this.speedX = speed * Math.cos(dir);
         this.speedY = speed * Math.sin(dir);
+        Game game = Game.getCurrentGame();
+        game.getShots().add(this);
+        game.getPane().getChildren().add(this);
     }
 
     void move(){
@@ -30,13 +33,14 @@ public abstract class Shot extends Rectangle {
             remove();
     }
 
-    private void checkForCollision() {
+    protected void checkForCollision() {
         Game game = Game.getCurrentGame();
         for(Obstacle obstacle : game.getAllObstaclesCopy()){
             if(willDestroy(obstacle)){
                 obstacle.removeObject();
                 game.checkForIncreasedIce(obstacle);
                 game.increaseKills(obstacle.getScore());
+                game.increaseSuccessfulShots();
                 obstacle.getBonus();
                 if(this instanceof Bullet){
                     this.remove();
@@ -46,10 +50,12 @@ public abstract class Shot extends Rectangle {
         }
     }
 
-    private void remove() {
+    protected void remove() {
         Game.getCurrentGame().getShots().remove(this);
         Game.getCurrentGame().getPane().getChildren().remove(this);
     }
 
-    protected abstract boolean willDestroy(Obstacle obstacle);
+    protected boolean willDestroy(Obstacle obstacle){
+        return false;
+    }
 }

@@ -46,12 +46,7 @@
                <children>
                   <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="411.0" spacing="10.0">
                      <children>
-                        <ImageView fx:id="heart1" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/heart2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="heart2" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="heart4" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/Icons/heart2.png" />
                            </image>
@@ -61,7 +56,12 @@
                               <Image url="@../Images/Icons/heart2.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="heart4" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="heart2" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/Icons/heart2.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="heart1" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/Icons/heart2.png" />
                            </image>

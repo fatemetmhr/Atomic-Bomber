@@ -6,8 +6,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Bullet extends Shot {
 
-    public static int sizeX = 370 / 10;
-    public static int sizeY = 138 / 10;
+    public static int sizeX = 370 / 13;
+    public static int sizeY = 138 / 13;
 
     public Bullet(int x, int y, double dir) {
         super(x, y, dir, sizeX, sizeY);

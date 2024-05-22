@@ -9,6 +9,7 @@ import java.util.Random;
 public class Tank extends Obstacle{
 
     static double speedScale = 0.2;
+    private double shootingBoard = 250;
 
     public Tank(Game game){
         super((int)(1170 / 6), (int)(476 / 6), 0, 700,
@@ -17,5 +18,35 @@ public class Tank extends Obstacle{
         if(speed < 0)
             setScaleX(-1);
         score = 4;
+        shootingBoard *= ApplicationController.getGameDifficulty();
+    }
+
+    public void checkForShooting(){
+        Plane plane = game.getPlane();
+        double distance = Math.sqrt(Math.pow(plane.getX() - getX(), 2) + Math.pow(plane.getY() - getY(), 2));
+        if(distance < shootingBoard && game.isAnyTankBulletInFrame(this) == false && game.getWave() > 1){
+            shoot();
+        }
+    }
+
+    private void shoot(){
+        new TankBullet((int)getX() + (speed < 0 ? 20 : 180), (int)getY() + 20, getShootingDirection(), this);
+    }
+
+    private double getShootingDirection() {
+        if(speed < 0){
+            return 5 * Math.PI / 4;
+        }
+        return 2 * Math.PI - Math.PI / 4;
+    }
+
+    @Override
+    public void passTime(){
+        move();
+        if(getX() < -sizeX)
+            removeObject();
+        if(getX() > 1291)
+            removeObject();
+        checkForShooting();
     }
 }

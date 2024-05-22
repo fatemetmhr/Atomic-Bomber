@@ -1,9 +1,9 @@
 package Model;
 
+import View.MenuController;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Game {
 
@@ -16,6 +16,7 @@ public class Game {
     private Pane pane;
     private int wave = 1;
     private int kills = 0;
+    private int successfulShots = 0;
     private boolean upKey = false;
     private boolean downDown = false;
     private boolean leftKey = false;
@@ -25,6 +26,7 @@ public class Game {
     private int remainedClusters = 0;
     private int remainedRadioactive = 0;
     private ArrayList<Bonus> Bonuses = new ArrayList<>();
+    public boolean noTimePassing = false;
 
 
     public Game(User user, Pane root) {
@@ -161,7 +163,7 @@ public class Game {
     public double getAccuracy() {
         if(shoots == 0)
             return 100;
-        return ((double)kills) / shoots * 100;
+        return (double)((successfulShots) * 10000 / shoots ) / 100;
     }
 
     public void increaseShoots() {
@@ -192,7 +194,7 @@ public class Game {
 
     public void setRemainedRadioactive(int remainedRadioactive) {
         this.remainedRadioactive = remainedRadioactive;
-        Controller.GameController.showRadioactives(remainedRadioactive);
+        Controller.GameController.showRadioactive(remainedRadioactive);
     }
 
     public int getRemainedRadioactive() {
@@ -205,5 +207,60 @@ public class Game {
 
     public ArrayList<Bonus> getBonusesCopy() {
         return new ArrayList<>(Bonuses);
+    }
+
+    public void gameOver() {
+        Controller.GameController.gameOver();
+        MenuController.goToGameOver(View.Game.stage);
+    }
+
+    public boolean isAnyTankBulletInFrame(Tank tank) {
+        for (Shot shot : allShots)
+            if(shot instanceof TankBullet && ((TankBullet) shot).getTank() == tank){
+                return true;
+            }
+        return false;
+    }
+
+    public void increaseSuccessfulShots() {
+        successfulShots++;
+    }
+
+    public int getSuccessfulShots() {
+        return successfulShots;
+    }
+
+    public int getWave() {
+        return wave;
+    }
+
+    public boolean isAnyStaticObstacleInFrame() {
+        for (Obstacle obstacle : obstacles)
+            if(obstacle instanceof Building || obstacle instanceof Tree || obstacle instanceof Bunker)
+                return true;
+        return false;
+    }
+
+    public void nextWave() {
+        noTimePassing = true;
+        removeLastWave();
+        wave++;
+        createWave();
+        noTimePassing = false;
+    }
+
+    private void removeLastWave() {
+        ArrayList<Obstacle> copyOfObstacles = new ArrayList<>(obstacles);
+        for(Obstacle obstacle : copyOfObstacles){
+            obstacle.removeObject();
+        }
+        ArrayList<Shot> copyOfShots = new ArrayList<>(allShots);
+        for(Shot shot : copyOfShots){
+            shot.remove();
+        }
+        upKey = false;
+        downDown = false;
+        leftKey = false;
+        rightKey = false;
     }
 }

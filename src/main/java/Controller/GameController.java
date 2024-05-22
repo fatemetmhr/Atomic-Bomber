@@ -13,21 +13,26 @@ import java.util.Random;
 public class GameController {
 
 
+    public static Timeline gameTimeLine;
 
 
     public static void setGameSettings(Pane root) {
         Game game = new Game(User.getLoggedInUser(), root);
         Game.setCurrentGame(game);
 
-        Timeline planeTimeline = new Timeline(new KeyFrame(Duration.millis(10), e -> passTime()));
-        planeTimeline.setCycleCount(Timeline.INDEFINITE);
-        planeTimeline.play();
+        gameTimeLine = new Timeline(new KeyFrame(Duration.millis(10), e -> passTime()));
+        gameTimeLine.setCycleCount(Timeline.INDEFINITE);
+        gameTimeLine.play();
+    }
 
-
+    public static void gameOver(){
+        gameTimeLine.stop();
     }
 
     private static void passTime() {
         Game game = Game.getCurrentGame();
+        if(game == null || game.noTimePassing)
+            return;
         if(!game.isAnyMovingObstacleInFrame()) {
             Random random = new Random();
             int randomInt = random.nextInt(2);
@@ -57,6 +62,10 @@ public class GameController {
 
         View.GameController gameController = View.Game.gameController;
         gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
+
+        if(game.getKills() >= 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false){
+            game.nextWave();
+        }
     }
 
     public static void keyPressed(KeyCode code) {
@@ -92,6 +101,12 @@ public class GameController {
         if(code == KeyCode.G){
             game.setRemainedRadioactive(game.getRemainedRadioactive() + 1);
         }
+        if(code == KeyCode.H){
+            plane.setHpToMax();
+        }
+        if(code == KeyCode.P){
+            game.nextWave();
+        }
 
     }
 
@@ -116,8 +131,19 @@ public class GameController {
         View.Game.gameController.showClusters(remainedClusters);
     }
 
-    public static void showRadioactives(int remainedRadioactives) {
-        View.Game.gameController.showRadioactives(remainedRadioactives);
+    public static void showRadioactive(int remainedRadioactive) {
+        View.Game.gameController.showRadioactive(remainedRadioactive);
+    }
+
+    public static void reduceHp(int hp) {
+        hp--;
+        View.Game.gameController.changeHeart(hp / 2 + 1, hp % 2);
+    }
+
+    public static void setHpToMax() {
+        for(int i = 0; i < 4; i++){
+            View.Game.gameController.changeHeart(i + 1, 2);
+        }
     }
 }
 

@@ -9,6 +9,7 @@ public abstract class Obstacle extends Rectangle {
     protected int sizeY;
     protected Game game;
     protected int score;
+    private boolean planeCollision = false;
 
     public Obstacle(int sizeX, int sizeY, int x, int y, double speed, Game game){
         super(sizeX, sizeY);
@@ -49,5 +50,13 @@ public abstract class Obstacle extends Rectangle {
 
     public void getBonus() {
         return;
+    }
+
+    public void setPlaneCollision(boolean b) {
+        planeCollision = b;
+    }
+
+    public boolean getPlaneCollision() {
+        return planeCollision;
     }
 }

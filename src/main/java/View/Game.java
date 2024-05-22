@@ -19,7 +19,7 @@ import java.net.URL;
 public class Game extends Application {
 
 
-    private static Stage stage;
+    public static Stage stage;
     public static GameController gameController;
 
     @Override

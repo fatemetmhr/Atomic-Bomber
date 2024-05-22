@@ -1,11 +1,8 @@
 package Model;
 
-import Controller.ApplicationController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
 
 public class Plane extends Rectangle {
 
@@ -20,6 +17,7 @@ public class Plane extends Rectangle {
     private int bulletX = 2;
     private int bulletY = -20;
     private boolean isMirrored = false;
+    private int hp;
     Image image;
 
     public Plane(Game game){
@@ -29,6 +27,7 @@ public class Plane extends Rectangle {
         dir = 0;
         speed = minSpeed;
         this.game = game;
+        hp = 8;
         setFill(new ImagePattern(new Image(Plane.class.getResource("/Images/Icons/plane.png").toString())));
     }
 
@@ -57,6 +56,19 @@ public class Plane extends Rectangle {
             setDir(-dir);
         if(getY() > 849 - sizeY)
             setDir(-dir);
+        checkForCollision();
+    }
+
+    private void checkForCollision() {
+        for(Obstacle obstacle : game.getAllObstaclesCopy()){
+            if(obstacle.intersects(this.getBoundsInLocal())){
+                if(!obstacle.getPlaneCollision())
+                    gotDamaged();
+                obstacle.setPlaneCollision(true);
+            } else{
+                obstacle.setPlaneCollision(false);
+            }
+        }
     }
 
 
@@ -109,8 +121,6 @@ public class Plane extends Rectangle {
 
     public void shoot() {
         Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
-        game.getShots().add(bullet);
-        game.getPane().getChildren().add(bullet);
         game.increaseShoots();
     }
 
@@ -118,10 +128,8 @@ public class Plane extends Rectangle {
         if(game.getRemainedClusters() == 0){
             return;
         }
-        for(int i = 0; i < 6; i++){
-            Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
-            game.getShots().add(bullet);
-            game.getPane().getChildren().add(bullet);
+        for(int i = 0; i < 6; i++) {
+            Bullet bullet = new Bullet((int) (getX() + (sizeX / 2 + getBulletX())), (int) (getY() + (sizeY / 2 + getBulletY())), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
         }
         game.increaseShoots();
         game.setRemainedClusters(game.getRemainedClusters() - 1);
@@ -132,8 +140,6 @@ public class Plane extends Rectangle {
             return;
         }
         Radioactive radioactive = new Radioactive((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
-        game.getShots().add(radioactive);
-        game.getPane().getChildren().add(radioactive);
         game.increaseShoots();
     }
 
@@ -147,5 +153,25 @@ public class Plane extends Rectangle {
         return 0;
         //return bulletY;
         //return 20 * Math.cos(dir + Math.atan2(((double)bulletX), bulletY));
+    }
+
+    public void gotDamaged() {
+        if(hp == 0){
+            game.gameOver();
+            return;
+        }
+        Controller.GameController.reduceHp(hp);
+        hp--;
+    }
+
+    public void setHpToMax() {
+        hp = 8;
+        Controller.GameController.setHpToMax();
+    }
+
+    public void resetPosition() {
+        setX(100);
+        setY(150);
+        setDir(0);
     }
 }
