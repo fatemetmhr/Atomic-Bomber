@@ -40,7 +40,7 @@ public class GameController {
         this.clusters.setText("Remained Clusters: " + clusters);
     }
 
-    public void showRadioactive(int radioactive){
+    public void showRadioactives(int radioactive){
         this.radioactive.setText("Remained Radioactive: " + radioactive);
     }
 
@@ -82,5 +82,4 @@ public class GameController {
         }
 
     }
-
 }

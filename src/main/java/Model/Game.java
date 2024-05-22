@@ -1,9 +1,9 @@
 package Model;
 
-import Controller.GameController;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Game {
 
@@ -23,6 +23,8 @@ public class Game {
     private int shoots = 0;
     private int ice;
     private int remainedClusters = 0;
+    private int remainedRadioactive = 0;
+    private ArrayList<Bonus> Bonuses = new ArrayList<>();
 
 
     public Game(User user, Pane root) {
@@ -186,5 +188,22 @@ public class Game {
 
     public int getRemainedClusters() {
         return remainedClusters;
+    }
+
+    public void setRemainedRadioactive(int remainedRadioactive) {
+        this.remainedRadioactive = remainedRadioactive;
+        Controller.GameController.showRadioactives(remainedRadioactive);
+    }
+
+    public int getRemainedRadioactive() {
+        return remainedRadioactive;
+    }
+
+    public ArrayList<Bonus> getBonuses() {
+        return Bonuses;
+    }
+
+    public ArrayList<Bonus> getBonusesCopy() {
+        return new ArrayList<>(Bonuses);
     }
 }

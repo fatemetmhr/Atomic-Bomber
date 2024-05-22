@@ -46,4 +46,8 @@ public abstract class Obstacle extends Rectangle {
     public int getScore() {
         return score;
     }
+
+    public void getBonus() {
+        return;
+    }
 }

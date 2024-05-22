@@ -26,17 +26,22 @@ public abstract class Shot extends Rectangle {
         speedY += 0.1;
         setRotate(Math.toDegrees(Math.atan2(speedY, speedX)));
         checkForCollision();
+        if(getY() > 800)
+            remove();
     }
 
     private void checkForCollision() {
         Game game = Game.getCurrentGame();
         for(Obstacle obstacle : game.getAllObstaclesCopy()){
-            if(getBoundsInParent().intersects(obstacle.getBoundsInParent())){
+            if(willDestroy(obstacle)){
                 obstacle.removeObject();
-                this.remove();
-                game.increaseKills(obstacle.getScore());
                 game.checkForIncreasedIce(obstacle);
-                return;
+                game.increaseKills(obstacle.getScore());
+                obstacle.getBonus();
+                if(this instanceof Bullet){
+                    this.remove();
+                    return;
+                }
             }
         }
     }
@@ -45,4 +50,6 @@ public abstract class Shot extends Rectangle {
         Game.getCurrentGame().getShots().remove(this);
         Game.getCurrentGame().getPane().getChildren().remove(this);
     }
+
+    protected abstract boolean willDestroy(Obstacle obstacle);
 }

@@ -119,12 +119,22 @@ public class Plane extends Rectangle {
             return;
         }
         for(int i = 0; i < 6; i++){
-            Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir + Math.PI / 6 * i);
+            Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
             game.getShots().add(bullet);
             game.getPane().getChildren().add(bullet);
         }
         game.increaseShoots();
         game.setRemainedClusters(game.getRemainedClusters() - 1);
+    }
+
+    public void shootRadioactive(){
+        if(game.getRemainedRadioactive() == 0){
+            return;
+        }
+        Radioactive radioactive = new Radioactive((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
+        game.getShots().add(radioactive);
+        game.getPane().getChildren().add(radioactive);
+        game.increaseShoots();
     }
 
     private double getBulletY() {

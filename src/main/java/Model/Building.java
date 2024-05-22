@@ -13,5 +13,9 @@ public class Building extends Obstacle{
         score = 1;
     }
 
+    @Override
+    public void getBonus() {
+        Bonus bonus = new Bonus((int)getX(), (int)getY(), false);
+    }
 
 }

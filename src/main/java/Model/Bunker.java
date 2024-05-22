@@ -10,4 +10,9 @@ public class Bunker extends Obstacle{
         setFill(new ImagePattern(new Image(Plane.class.getResource("/Images/Obstacle/bunker.png").toString())));
         score = 2;
     }
+
+    @Override
+    public void getBonus() {
+        Bonus bonus = new Bonus((int)getX(), (int)getY(), true);
+    }
 }

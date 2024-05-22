@@ -51,6 +51,10 @@ public class GameController {
             System.out.println(Game.getCurrentGame().getAllObstacles().size());
         }
 
+        for(Bonus bonus : Game.getCurrentGame().getBonusesCopy()){
+            bonus.passTime();
+        }
+
         View.GameController gameController = View.Game.gameController;
         gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
     }
@@ -82,6 +86,12 @@ public class GameController {
         if(code == KeyCode.CONTROL){
             game.setRemainedClusters(game.getRemainedClusters() + 1);
         }
+        if(code == KeyCode.R){
+            plane.shootRadioactive();
+        }
+        if(code == KeyCode.G){
+            game.setRemainedRadioactive(game.getRemainedRadioactive() + 1);
+        }
 
     }
 
@@ -104,6 +114,10 @@ public class GameController {
 
     public static void showClusters(int remainedClusters) {
         View.Game.gameController.showClusters(remainedClusters);
+    }
+
+    public static void showRadioactives(int remainedRadioactives) {
+        View.Game.gameController.showRadioactives(remainedRadioactives);
     }
 }
 
