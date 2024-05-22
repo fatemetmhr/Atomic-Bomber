@@ -11,6 +11,8 @@ public class Plane extends Rectangle {
 
     static int sizeX = 890 / 8;
     static int sizeY = 325 / 8;
+    static int maxSpeed = 5;
+    static int minSpeed = 3;
 
     private double dir;
     private double speed;
@@ -25,7 +27,7 @@ public class Plane extends Rectangle {
         setX(100);
         setY(150);
         dir = 0;
-        speed = 2;
+        speed = minSpeed;
         this.game = game;
         setFill(new ImagePattern(new Image(Plane.class.getResource("/Images/Icons/plane.png").toString())));
     }
@@ -87,8 +89,12 @@ public class Plane extends Rectangle {
 
     public void makeDirCloseTo(double v) {
         int scale = 180;
-        if(dir == v)
+        if(dir == v) {
+            speed++;
+            speed = Math.min(speed, maxSpeed);
             return;
+        }
+        speed = minSpeed;
         if(getMinRotationDistance(dir, v) < getMinRotationDistance(v, dir))
             setDir(dir + Math.PI / scale);
         else
@@ -103,8 +109,22 @@ public class Plane extends Rectangle {
 
     public void shoot() {
         Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
-        game.getBullets().add(bullet);
+        game.getShots().add(bullet);
         game.getPane().getChildren().add(bullet);
+        game.increaseShoots();
+    }
+
+    public void shootCluster(){
+        if(game.getRemainedClusters() == 0){
+            return;
+        }
+        for(int i = 0; i < 6; i++){
+            Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir + Math.PI / 6 * i);
+            game.getShots().add(bullet);
+            game.getPane().getChildren().add(bullet);
+        }
+        game.increaseShoots();
+        game.setRemainedClusters(game.getRemainedClusters() - 1);
     }
 
     private double getBulletY() {

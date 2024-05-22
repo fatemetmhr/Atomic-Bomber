@@ -37,8 +37,8 @@ public class GameController {
                 game.addTruck();
         }
         Game.getCurrentGame().getPlane().passTime();
-        for (Bullet bullet : Game.getCurrentGame().getBulletsCopy()) {
-            bullet.passTime();
+        for (Shot shot : Game.getCurrentGame().getShotsCopy()) {
+            shot.passTime();
         }
         try{
             for (Obstacle obstacle : Game.getCurrentGame().getAllObstaclesCopy()) {
@@ -50,6 +50,9 @@ public class GameController {
             System.out.println(e.getMessage());
             System.out.println(Game.getCurrentGame().getAllObstacles().size());
         }
+
+        View.GameController gameController = View.Game.gameController;
+        gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
     }
 
     public static void keyPressed(KeyCode code) {
@@ -73,6 +76,12 @@ public class GameController {
         if(code == KeyCode.T){
             game.addTank();
         }
+        if(code == KeyCode.C){
+            plane.shootCluster();
+        }
+        if(code == KeyCode.CONTROL){
+            game.setRemainedClusters(game.getRemainedClusters() + 1);
+        }
 
     }
 
@@ -91,6 +100,10 @@ public class GameController {
         if (code == ApplicationController.getRightKeyCode()) {
             game.setRightKey(false);
         }
+    }
+
+    public static void showClusters(int remainedClusters) {
+        View.Game.gameController.showClusters(remainedClusters);
     }
 }
 

@@ -1,9 +1,9 @@
 package Model;
 
+import Controller.GameController;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Game {
 
@@ -11,7 +11,7 @@ public class Game {
     static ArrayList<Game> allGames = new ArrayList<>();
     private User user;
     private Plane plane;
-    private ArrayList<Bullet> bullets = new ArrayList<>();
+    private ArrayList<Shot> allShots = new ArrayList<>();
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private Pane pane;
     private int wave = 1;
@@ -20,8 +20,9 @@ public class Game {
     private boolean downDown = false;
     private boolean leftKey = false;
     private boolean rightKey = false;
-
-
+    private int shoots = 0;
+    private int ice;
+    private int remainedClusters = 0;
 
 
     public Game(User user, Pane root) {
@@ -30,10 +31,13 @@ public class Game {
         this.pane = root;
         plane = new Plane(this);
         root.getChildren().add(plane);
+        ice = 0;
         createWave();
     }
 
     private void createWave() {
+        View.GameController gameController = View.Game.gameController;
+        gameController.showWave(wave);
         Building building = new Building(this, 950, 600);
         building = new Building(this, 400, 550);
         Bunker bunker = new Bunker(this, 670, 650);
@@ -59,9 +63,6 @@ public class Game {
         this.plane = plane;
     }
 
-    public ArrayList<Bullet> getBullets() {
-        return bullets;
-    }
 
     public Pane getPane() {
         return pane;
@@ -75,8 +76,8 @@ public class Game {
         Tank tank = new Tank(this);
     }
 
-    public ArrayList<Bullet> getBulletsCopy() {
-        return new ArrayList<>(bullets);
+    public ArrayList<Shot> getShotsCopy() {
+        return new ArrayList<>(allShots);
     }
 
     public ArrayList<Obstacle> getAllObstaclesCopy() {
@@ -149,5 +150,41 @@ public class Game {
                     return true;
         }
         return false;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public double getAccuracy() {
+        if(shoots == 0)
+            return 100;
+        return ((double)kills) / shoots * 100;
+    }
+
+    public void increaseShoots() {
+        shoots++;
+    }
+
+    public void checkForIncreasedIce(Obstacle obstacle) {
+        if(obstacle instanceof Truck || obstacle instanceof Tank || obstacle instanceof Building){
+            if(ice < 5) {
+                ice++;
+                View.Game.gameController.changeIce(5 - ice + 1, true);
+            }
+        }
+    }
+
+    public ArrayList<Shot> getShots() {
+        return allShots;
+    }
+
+    public void setRemainedClusters(int remainedClusters) {
+        this.remainedClusters = remainedClusters;
+        Controller.GameController.showClusters(remainedClusters);
+    }
+
+    public int getRemainedClusters() {
+        return remainedClusters;
     }
 }

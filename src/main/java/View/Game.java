@@ -20,14 +20,14 @@ public class Game extends Application {
 
 
     private static Stage stage;
+    public static GameController gameController;
 
     @Override
     public void start(Stage stage) throws Exception {
         Game.stage = stage;
-        Pane root = new BorderPane();
-        root.getStyleClass().add("MainPane");
+        URL url = MainMenu.class.getResource("/FXML/Game.fxml");
+        Pane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/CSS/style.css").toExternalForm());
         Controller.GameController.setGameSettings(root);
         ApplicationController.applyColorAffects(scene);
         scene.setOnKeyPressed(event -> Controller.GameController.keyPressed(event.getCode()));
