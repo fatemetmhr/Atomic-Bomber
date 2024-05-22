@@ -1,7 +1,6 @@
 package View;
 
-import Model.User;
-import javafx.scene.control.Control;
+import Controller.ApplicationController;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -12,15 +11,15 @@ public class ProfileMenuController {
     public TextField password;
     public ImageView avatar;
 
-    public void initialize(){
-        username.setText(User.getLoggedInUser().getUsername());
-        password.setText(User.getLoggedInUser().getPassword());
+    public void initialize() {
+        username.setText(ApplicationController.getUsername());
+        password.setText(ApplicationController.getPassword());
         Controller.ProfileMenuController.setAvatar(avatar);
     }
 
 
     public void deleteAccount() {
-        if(!AlertController.showConfirmation("Heads up!", "Are you sure you want to delete your account?"))
+        if (!AlertController.showConfirmation("Heads up!", "Are you sure you want to delete your account?"))
             return;
         Controller.ProfileMenuController.deleteAccount();
         MenuController.goToStartMenu(ProfileMenu.stage);
@@ -31,7 +30,7 @@ public class ProfileMenuController {
     }
 
     public void saveNewUsernameAndPass(MouseEvent mouseEvent) {
-        if(Controller.ProfileMenuController.changeUsernameAndPassword(username.getText(), password.getText()))
+        if (Controller.ProfileMenuController.changeUsernameAndPassword(username.getText(), password.getText()))
             return;
         AlertController.showInformation("Success!", "Your changes have been saved successfully.");
     }

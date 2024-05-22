@@ -11,12 +11,12 @@ import java.io.File;
 
 public class AvatarMenuController {
 
-    public ChoiceBox <String> avatarChooser;
+    public ChoiceBox<String> avatarChooser;
     public ImageView avatar;
     public ImageView dragImage;
 
 
-    public void initialize(){
+    public void initialize() {
         Controller.ProfileMenuController.setAvatar(avatar);
         Controller.AvatarMenuController.addAllAvatars(avatarChooser);
         avatarChooser.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

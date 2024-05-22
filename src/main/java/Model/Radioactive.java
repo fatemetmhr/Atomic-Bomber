@@ -3,7 +3,7 @@ package Model;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
-public class Radioactive extends Shot{
+public class Radioactive extends Shot {
 
     public static int sizeX = 302 / 6;
     public static int sizeY = 141 / 6;
@@ -18,5 +18,11 @@ public class Radioactive extends Shot{
     @Override
     protected boolean willDestroy(Obstacle obstacle) {
         return Math.abs(getX() - obstacle.getX()) < destroyingBoardX && Math.abs(getY() - obstacle.getY()) < destroyingBoardY;
+    }
+
+    @Override
+    protected void remove() {
+        super.remove();
+        Explosion explosion = new Explosion((int) getX(), (int) getY() - 100, Game.getCurrentGame());
     }
 }

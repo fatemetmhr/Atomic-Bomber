@@ -1,6 +1,6 @@
 package Controller;
 
-import View.MainMenu;
+import Model.User;
 import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyCode;
@@ -17,29 +17,28 @@ public class ApplicationController {
     private static boolean isBlackAndWhite = false;
     private static boolean isWin = false;
 
-    public static void startMusic(String path){
-        if(mediaPlayer != null)
+    public static void startMusic(String path) {
+        if (mediaPlayer != null)
             return;
-        try{
+        try {
             Media media = new Media(path);
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.play();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void muteMusic(){
+    public static void muteMusic() {
         isSoundMuted = true;
-        if(mediaPlayer != null)
+        if (mediaPlayer != null)
             mediaPlayer.setMute(true);
     }
 
-    public static void unmuteMusic(){
+    public static void unmuteMusic() {
         isSoundMuted = false;
-        if(mediaPlayer != null)
+        if (mediaPlayer != null)
             mediaPlayer.setMute(false);
     }
 
@@ -78,7 +77,7 @@ public class ApplicationController {
         return isBlackAndWhite;
     }
 
-    public static void applyColorAffects(Scene scene){
+    public static void applyColorAffects(Scene scene) {
         if (isBlackAndWhite) {
             ColorAdjust colorAdjust = new ColorAdjust();
             colorAdjust.setSaturation(-1);
@@ -107,8 +106,16 @@ public class ApplicationController {
     public static void setGameResult(boolean isWin) {
         ApplicationController.isWin = isWin;
     }
+
     public static boolean isWin() {
         return isWin;
     }
 
+    public static String getUsername() {
+        return User.getLoggedInUser().getUsername();
+    }
+
+    public static String getPassword() {
+        return User.getLoggedInUser().getPassword();
+    }
 }

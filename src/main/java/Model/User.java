@@ -1,7 +1,6 @@
 package Model;
 
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 
 
@@ -19,15 +18,13 @@ public class User {
         this.avatar = Avatar.getRandomAvatar();
         image = null;
         allUsers.add(this);
-        // TODO: save user in file
     }
 
     public static User getUserByUsername(String username) {
-        for(User user : allUsers) {
-            if(user.getUsername().equals(username))
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username))
                 return user;
         }
-        // TODO: search for this user in file
         return null;
     }
 
@@ -41,7 +38,6 @@ public class User {
 
     public static void deleteUser(User user) {
         allUsers.remove(user);
-        // TODO: remove from file
     }
 
     public String getUsername() {

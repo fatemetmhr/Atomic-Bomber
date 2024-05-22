@@ -1,6 +1,6 @@
 package Model;
 
-import View.MenuController;
+import Controller.GameController;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -10,6 +10,7 @@ public class Game {
 
     static Game currentGame = null;
     static ArrayList<Game> allGames = new ArrayList<>();
+    public boolean isPlaneBurning = false;
     private User user;
     private Plane plane;
     private ArrayList<Shot> allShots = new ArrayList<>();
@@ -30,6 +31,8 @@ public class Game {
     public boolean noTimePassing = false;
     private ArrayList<Mig> allMigs = new ArrayList<>();
     private Timer migTimer;
+    private ArrayList<Obstacle> burningObstacles = new ArrayList<>();
+    private ArrayList<BurningAnimation> allBurningAnimations = new ArrayList<>();
 
 
     public Game(User user, Pane root) {
@@ -52,7 +55,7 @@ public class Game {
         Tree tree = new Tree(this, 30, 650);
         tree = new Tree(this, 1100, 630);
         tree = new Tree(this, 530, 650);
-        if(wave == 3)
+        if (wave == 3)
             migTimer.reset();
     }
 
@@ -65,7 +68,7 @@ public class Game {
         Game.currentGame = currentGame;
     }
 
-    public  Plane getPlane() {
+    public Plane getPlane() {
         return plane;
     }
 
@@ -155,10 +158,10 @@ public class Game {
 
     public boolean isAnyMovingObstacleInFrame() {
         for (Obstacle obstacle : obstacles)
-            if(obstacle instanceof Truck || obstacle instanceof Tank){
+            if (obstacle instanceof Truck || obstacle instanceof Tank) {
                 if (obstacle.getX() < 200 || obstacle.getX() > 1101)
                     return true;
-        }
+            }
         return false;
     }
 
@@ -167,9 +170,9 @@ public class Game {
     }
 
     public double getAccuracy() {
-        if(shoots == 0)
+        if (shoots == 0)
             return 100;
-        return (double)((successfulShots) * 10000 / shoots ) / 100;
+        return (double) ((successfulShots) * 10000 / shoots) / 100;
     }
 
     public void increaseShoots() {
@@ -177,8 +180,8 @@ public class Game {
     }
 
     public void checkForIncreasedIce(Obstacle obstacle) {
-        if(obstacle instanceof Truck || obstacle instanceof Tank || obstacle instanceof Building){
-            if(ice < 5) {
+        if (obstacle instanceof Truck || obstacle instanceof Tank || obstacle instanceof Building) {
+            if (ice < 5) {
                 ice++;
                 View.Game.gameController.changeIce(5 - ice + 1, true);
             }
@@ -217,12 +220,11 @@ public class Game {
 
     public void gameOver(boolean isWin) {
         Controller.GameController.gameOver();
-        MenuController.goToGameOver(View.Game.stage, isWin);
     }
 
     public boolean isAnyTankBulletInFrame(Rectangle rectangle) {
         for (Shot shot : allShots)
-            if(shot instanceof ObstacleBullet && ((ObstacleBullet) shot).getOwner() == rectangle){
+            if (shot instanceof ObstacleBullet && ((ObstacleBullet) shot).getOwner() == rectangle) {
                 return true;
             }
         return false;
@@ -242,13 +244,13 @@ public class Game {
 
     public boolean isAnyStaticObstacleInFrame() {
         for (Obstacle obstacle : obstacles)
-            if(obstacle instanceof Building || obstacle instanceof Tree || obstacle instanceof Bunker)
+            if (obstacle instanceof Building || obstacle instanceof Tree || obstacle instanceof Bunker)
                 return true;
         return false;
     }
 
     public void nextWave() {
-        if(wave == 3) {
+        if (wave == 3) {
             gameOver(true);
         }
         noTimePassing = true;
@@ -260,11 +262,12 @@ public class Game {
 
     private void removeLastWave() {
         ArrayList<Obstacle> copyOfObstacles = new ArrayList<>(obstacles);
-        for(Obstacle obstacle : copyOfObstacles){
-            obstacle.removeObject();
-        }
+        for (Obstacle obstacle : copyOfObstacles)
+            obstacle.doneWithBurning();
+        for (Obstacle obstacle : getCopyOfBurningObstacles())
+            obstacle.doneWithBurning();
         ArrayList<Shot> copyOfShots = new ArrayList<>(allShots);
-        for(Shot shot : copyOfShots){
+        for (Shot shot : copyOfShots) {
             shot.remove();
         }
         upKey = false;
@@ -281,8 +284,8 @@ public class Game {
         Mig mig = new Mig(this);
     }
 
-    public int getMigTimerTime(){
-        if(migTimer == null)
+    public int getMigTimerTime() {
+        if (migTimer == null)
             return -1;
         return migTimer.getTimeCounter();
     }
@@ -294,4 +297,21 @@ public class Game {
     public ArrayList<Mig> getAllMigsCopy() {
         return new ArrayList<>(allMigs);
     }
+
+    public ArrayList<Obstacle> getBurningObstacles() {
+        return burningObstacles;
+    }
+
+    public ArrayList<Obstacle> getCopyOfBurningObstacles() {
+        return new ArrayList<>(burningObstacles);
+    }
+
+    public ArrayList<BurningAnimation> getAllBurningAnimations() {
+        return allBurningAnimations;
+    }
+
+    public ArrayList<BurningAnimation> getCopyOfAllBurningAnimations() {
+        return new ArrayList<>(allBurningAnimations);
+    }
+
 }

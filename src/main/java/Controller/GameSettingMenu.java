@@ -6,7 +6,7 @@ import Model.*;
 
 public class GameSettingMenu {
     public static void changeSoundMode(ImageView soundMode) {
-        if(ApplicationController.isSoundMuted()){
+        if (ApplicationController.isSoundMuted()) {
             soundMode.setImage(new Image(GameSettingMenu.class.getResource("/Images/Icons/unmute.png").toExternalForm()));
             ApplicationController.unmuteMusic();
         } else {

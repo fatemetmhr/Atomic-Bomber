@@ -17,8 +17,7 @@ public class AvatarMenuController {
             Avatar avatar = Avatar.getAvataraByName(value);
             User.getLoggedInUser().setAvatar(avatar);
             avatarView.setImage(avatar.getImage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(value);
         }
     }

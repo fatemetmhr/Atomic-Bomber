@@ -7,11 +7,11 @@ public class LoginAndRegisterMenuController {
 
     public static boolean loginUser(String username, String password) {
         User user = User.getUserByUsername(username);
-        if(user == null) {
+        if (user == null) {
             AlertController.showError("Failed to login", "Username does not exist");
             return true;
         }
-        if(!user.getPassword().equals(password)) {
+        if (!user.getPassword().equals(password)) {
             AlertController.showError("Failed to login", "Password is incorrect");
             return true;
         }
@@ -22,10 +22,14 @@ public class LoginAndRegisterMenuController {
     }
 
     public static boolean registerUser(String username, String password) {
-        if(ProfileMenuController.checkUsernameAndPassForNewUser(username, password))
+        if (ProfileMenuController.checkUsernameAndPassForNewUser(username, password))
             return true;
         new User(username, password);
         AlertController.showInformation("Register successfully", "You can now login to the game!");
         return false;
+    }
+
+    public static void setGuestUser() {
+        User.setLoggedInUser(new User("Guest", ""));
     }
 }

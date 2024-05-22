@@ -19,10 +19,12 @@ public class Plane extends Rectangle {
     private boolean isMirrored = false;
     private int hp;
 
+    private Timer burningTimer;
+
     private Timer damegingTimer;
     Image image;
 
-    public Plane(Game game){
+    public Plane(Game game) {
         super(sizeX, sizeY);
         setX(100);
         setY(150);
@@ -41,6 +43,9 @@ public class Plane extends Rectangle {
     }
 
     public void passTime() {
+        if (burningTimer != null) {
+            return;
+        }
         if (game.getDownDown()) {
             makeDirCloseTo(Math.PI / 2);
         } else if (game.getUpKey()) {
@@ -51,13 +56,13 @@ public class Plane extends Rectangle {
             makeDirCloseTo(0);
         }
         move(speed);
-        if(getX() < -sizeX)
+        if (getX() < -sizeX)
             setX(1291);
-        if(getX() > 1291)
+        if (getX() > 1291)
             setX(-sizeX);
-        if(getY() < 0)
+        if (getY() < 0)
             setDir(-dir);
-        if(getY() > 849 - sizeY){
+        if (getY() > 849 - sizeY) {
             setDir(-dir);
             gotDamaged();
         }
@@ -65,12 +70,12 @@ public class Plane extends Rectangle {
     }
 
     private void checkForCollision() {
-        for(Obstacle obstacle : game.getAllObstaclesCopy()){
-            if(obstacle.intersects(this.getBoundsInLocal())){
-                if(!obstacle.getPlaneCollision())
+        for (Obstacle obstacle : game.getAllObstaclesCopy()) {
+            if (obstacle.intersects(this.getBoundsInLocal())) {
+                if (!obstacle.getPlaneCollision())
                     gotDamaged();
                 obstacle.setPlaneCollision(true);
-            } else{
+            } else {
                 obstacle.setPlaneCollision(false);
             }
         }
@@ -78,22 +83,23 @@ public class Plane extends Rectangle {
 
 
     public void setDir(double v) {
+        if (burningTimer != null)
+            return;
         v += 10 * Math.PI;
         v %= 2 * Math.PI;
-        if(Math.abs(v) < 0.0001 || Math.abs(v - 2 * Math.PI) < 0.0001)
+        if (Math.abs(v) < 0.0001 || Math.abs(v - 2 * Math.PI) < 0.0001)
             v = 0;
-        if(Math.abs(v - Math.PI) < 0.0001)
+        if (Math.abs(v - Math.PI) < 0.0001)
             v = Math.PI;
-        if(Math.abs(v - Math.PI / 2) < 0.0001)
+        if (Math.abs(v - Math.PI / 2) < 0.0001)
             v = Math.PI / 2;
-        if(Math.abs(v - 3 * Math.PI / 2) < 0.0001)
+        if (Math.abs(v - 3 * Math.PI / 2) < 0.0001)
             v = 3 * Math.PI / 2;
         dir = v;
-        if(v >= Math.PI / 2 && v <= 3 * Math.PI / 2) {
+        if (v >= Math.PI / 2 && v <= 3 * Math.PI / 2) {
             setScaleY(-1);
             isMirrored = true;
-        }
-        else{
+        } else {
             setScaleY(1);
             isMirrored = false;
         }
@@ -106,72 +112,66 @@ public class Plane extends Rectangle {
 
     public void makeDirCloseTo(double v) {
         int scale = 180;
-        if(dir == v) {
+        if (dir == v) {
             speed++;
             speed = Math.min(speed, maxSpeed);
             return;
         }
         speed = minSpeed;
-        if(getMinRotationDistance(dir, v) < getMinRotationDistance(v, dir))
+        if (getMinRotationDistance(dir, v) < getMinRotationDistance(v, dir))
             setDir(dir + Math.PI / scale);
         else
             setDir(dir - Math.PI / scale);
     }
 
     private double getMinRotationDistance(double dir1, double dir2) {
-        if(dir1 <= dir2)
+        if (dir1 <= dir2)
             return dir2 - dir1;
         return 2 * Math.PI - dir1 + dir2;
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
+        Bullet bullet = new Bullet((int) (getX() + (sizeX / 2)), (int) (getY() + (sizeY / 2)), dir);
         game.increaseShoots();
     }
 
-    public void shootCluster(){
-        if(game.getRemainedClusters() == 0){
+    public void shootCluster() {
+        if (game.getRemainedClusters() == 0) {
             return;
         }
-        for(int i = 0; i < 6; i++) {
-            Bullet bullet = new Bullet((int) (getX() + (sizeX / 2 + getBulletX())), (int) (getY() + (sizeY / 2 + getBulletY())), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
+        for (int i = 0; i < 6; i++) {
+            Bullet bullet = new Bullet((int) getX() + (sizeX / 2), (int) (getY() + (sizeY / 2)), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
         }
         game.increaseShoots();
         game.setRemainedClusters(game.getRemainedClusters() - 1);
     }
 
-    public void shootRadioactive(){
-        if(game.getRemainedRadioactive() == 0){
+    public void shootRadioactive() {
+        if (game.getRemainedRadioactive() == 0) {
             return;
         }
-        Radioactive radioactive = new Radioactive((int)(getX() + (sizeX / 2 + getBulletX())), (int)(getY() + (sizeY / 2 + getBulletY())), dir);
+        Radioactive radioactive = new Radioactive((int) (getX() + (sizeX / 2)), (int) (getY() + (sizeY / 2)), dir);
         game.increaseShoots();
     }
 
-    private double getBulletY() {
-        return 0;
-        //return bulletX;
-        //return 20 * Math.sin(dir + Math.atan2(((double)bulletX), bulletY));
-    }
-
-    private double getBulletX() {
-        return 0;
-        //return bulletY;
-        //return 20 * Math.cos(dir + Math.atan2(((double)bulletX), bulletY));
-    }
-
     public void gotDamaged() {
-        if(damegingTimer.getTimeCounter() > 3)
+        if (damegingTimer.getTimeCounter() > 1)
             damegingTimer = null;
-        if(damegingTimer != null)
+        if (damegingTimer != null)
             return;
         damegingTimer = new Timer(1);
+        Controller.GameController.reduceHp(hp);
         hp--;
-        if(hp == 0){
-            game.gameOver(false);
+        if (hp == 0) {
+            BurningFire burningFire = new BurningFire((int) getX(), (int) getY() - 20, game);
+            game.isPlaneBurning = true;
+            burningTimer = new Timer(1);
             return;
         }
-        Controller.GameController.reduceHp(hp);
+    }
+
+    public int getBurningTime() {
+        return burningTimer.getTimeCounter();
     }
 
     public void setHpToMax() {

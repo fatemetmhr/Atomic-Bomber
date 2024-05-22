@@ -8,7 +8,7 @@ public abstract class Shot extends Rectangle {
     protected double speedX;
     protected double speedY;
 
-    public Shot(int x, int y, double dir, int sizeX, int sizeY){
+    public Shot(int x, int y, double dir, int sizeX, int sizeY) {
         super(sizeX, sizeY);
         setX(x);
         setY(y);
@@ -19,30 +19,30 @@ public abstract class Shot extends Rectangle {
         game.getPane().getChildren().add(this);
     }
 
-    void move(){
+    void move() {
         setX(getX() + speedX);
         setY(getY() + speedY);
     }
 
-    public void passTime(){
+    public void passTime() {
         move();
         speedY += 0.1;
         setRotate(Math.toDegrees(Math.atan2(speedY, speedX)));
         checkForCollision();
-        if(getY() > 800)
+        if (getY() > 750)
             remove();
     }
 
     protected void checkForCollision() {
         Game game = Game.getCurrentGame();
-        for(Obstacle obstacle : game.getAllObstaclesCopy()){
-            if(willDestroy(obstacle)){
+        for (Obstacle obstacle : game.getAllObstaclesCopy()) {
+            if (willDestroy(obstacle)) {
                 obstacle.removeObject();
                 game.checkForIncreasedIce(obstacle);
                 game.increaseKills(obstacle.getScore());
                 game.increaseSuccessfulShots();
                 obstacle.getBonus();
-                if(this instanceof Bullet){
+                if (this instanceof Bullet) {
                     this.remove();
                     return;
                 }
@@ -55,7 +55,7 @@ public abstract class Shot extends Rectangle {
         Game.getCurrentGame().getPane().getChildren().remove(this);
     }
 
-    protected boolean willDestroy(Obstacle obstacle){
+    protected boolean willDestroy(Obstacle obstacle) {
         return false;
     }
 }

@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import Model.*;
 
@@ -28,13 +29,14 @@ public class GameController {
         gameTimeLine.play();
     }
 
-    public static void gameOver(){
+    public static void gameOver() {
         gameTimeLine.stop();
+        View.MenuController.goToGameOver(View.Game.stage, ApplicationController.isWin());
     }
 
     private static void passTime() {
         Game game = Game.getCurrentGame();
-        if(showWave)
+        if (showWave)
             showNewWave(game.getWave());
         if (game == null || game.noTimePassing)
             return;
@@ -46,9 +48,9 @@ public class GameController {
             if (randomInt == 1 && game.numberOfTrucks() < 2)
                 game.addTruck();
         }
-        if (game.getWave() == 3 && game.getAllMigs().size() < 1){
-            int neededTime = (int)(migTimePassing * ((4.0 - ApplicationController.getGameDifficulty() + 1) / 4));
-            if(game.getMigTimerTime() >= neededTime) {
+        if (game.getWave() == 3 && game.getAllMigs().size() < 1) {
+            int neededTime = (int) (migTimePassing * ((4.0 - ApplicationController.getGameDifficulty() + 1) / 4));
+            if (game.getMigTimerTime() >= neededTime) {
                 game.addMig();
             }
             GameController.showMigAlert(neededTime - game.getMigTimerTime());
@@ -57,7 +59,7 @@ public class GameController {
         for (Shot shot : game.getShotsCopy()) {
             shot.passTime();
         }
-        try{
+        try {
             for (Obstacle obstacle : game.getAllObstaclesCopy()) {
                 obstacle.passTime();
             }
@@ -68,29 +70,44 @@ public class GameController {
             System.out.println(game.getAllObstacles().size());
         }
 
-        for(Bonus bonus : game.getBonusesCopy())
+        for (Bonus bonus : game.getBonusesCopy())
             bonus.passTime();
 
-        for(Mig mig : game.getAllMigsCopy())
+        for (Mig mig : game.getAllMigsCopy())
             mig.passTime();
+
+        for (Obstacle obstacle : game.getCopyOfBurningObstacles()) {
+            if (obstacle.getBurningTime() > 3)
+                obstacle.doneWithBurning();
+        }
+
+        for (BurningAnimation burningAnimation : game.getCopyOfAllBurningAnimations()) {
+            if (burningAnimation.getBurnTime() > 1)
+                burningAnimation.remove();
+        }
+
+        if (game.isPlaneBurning && game.getPlane().getBurningTime() > 2) {
+            game.gameOver(false);
+            return;
+        }
 
         View.GameController gameController = View.Game.gameController;
         gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
 
-        if(game.getKills() >= 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false){
+        if (game.getKills() >= 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false) {
             game.nextWave();
         }
     }
 
     private static void showMigAlert(int left) {
-        if(left == 0){
+        if (left == 0) {
             View.Game.gameController.showMigAlert(0);
             migAlert = false;
             return;
         }
-        if(left > 3)
+        if (left > 3)
             return;
-        if(!migAlert)
+        if (!migAlert)
             alertTimer = new Timer(1.0 / 360);
         migAlert = true;
         View.Game.gameController.showMigAlert((Math.cos(Math.toRadians(alertTimer.getTimeCounter())) + 1) / 2);
@@ -111,28 +128,28 @@ public class GameController {
         if (code == ApplicationController.getRightKeyCode()) {
             game.setRightKey(true);
         }
-        if(code == KeyCode.SPACE){
+        if (code == KeyCode.SPACE) {
             plane.shoot();
         }
-        if(code == KeyCode.T){
+        if (code == KeyCode.T) {
             game.addTank();
         }
-        if(code == KeyCode.C){
+        if (code == KeyCode.C) {
             plane.shootCluster();
         }
-        if(code == KeyCode.CONTROL){
+        if (code == KeyCode.CONTROL) {
             game.setRemainedClusters(game.getRemainedClusters() + 1);
         }
-        if(code == KeyCode.R){
+        if (code == KeyCode.R) {
             plane.shootRadioactive();
         }
-        if(code == KeyCode.G){
+        if (code == KeyCode.G) {
             game.setRemainedRadioactive(game.getRemainedRadioactive() + 1);
         }
-        if(code == KeyCode.H){
+        if (code == KeyCode.H) {
             plane.setHpToMax();
         }
-        if(code == KeyCode.P){
+        if (code == KeyCode.P) {
             game.nextWave();
         }
 
@@ -169,7 +186,7 @@ public class GameController {
     }
 
     public static void setHpToMax() {
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             View.Game.gameController.changeHeart(i + 1, 2);
         }
     }
@@ -177,9 +194,9 @@ public class GameController {
     public static void showNewWave(int wave) {
         View.GameController gameController = View.Game.gameController;
         gameController.showWave(wave);
-        if(alertTimer == null)
+        if (alertTimer == null)
             alertTimer = new Timer(1.0 / 360);
-        if(alertTimer.getTimeCounter() > 3 * 360) {
+        if (alertTimer.getTimeCounter() > 3 * 360) {
             alertTimer = null;
             showWave = false;
             View.Game.gameController.showNewWaveAlert(wave, 0);

@@ -1,12 +1,11 @@
 package Model;
 
-import Controller.ApplicationController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 import java.util.Random;
 
-public class Truck extends Obstacle{
+public class Truck extends Obstacle {
 
     static double speedScale = 0.5;
 
@@ -17,5 +16,13 @@ public class Truck extends Obstacle{
         if (speed > 0)
             setScaleX(-1);
         score = 3;
+    }
+
+    @Override
+    protected void addBurnings() {
+        BurningFire burningFire = new BurningFire((int) getX(), (int) getY(), game);
+        burnings.add(burningFire);
+        burningFire = new BurningFire((int) getX() + 50, (int) getY() + 20, game);
+        burnings.add(burningFire);
     }
 }

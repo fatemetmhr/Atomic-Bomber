@@ -3,6 +3,7 @@ package Model;
 import View.MainMenu;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
+
 import java.util.Random;
 
 public enum Avatar {

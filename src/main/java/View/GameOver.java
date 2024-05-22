@@ -12,6 +12,7 @@ import java.net.URL;
 public class GameOver extends Application {
 
     public static Stage stage;
+
     @Override
     public void start(Stage stage) throws Exception {
         GameOver.stage = stage;

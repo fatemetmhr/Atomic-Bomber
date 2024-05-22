@@ -23,30 +23,30 @@ public class GameController {
     public ImageView migAlertImage;
     public Label alert;
 
-    public void initialize(){
+    public void initialize() {
         Game.gameController = this;
     }
 
-    public void showWave(int wave){
+    public void showWave(int wave) {
         this.wave.setText("Wave " + wave);
     }
 
-    public void showKillsAndAccuracy(int kills, double accuracy){
+    public void showKillsAndAccuracy(int kills, double accuracy) {
         this.kills.setText("Number of Kills: " + kills);
         this.accuracy.setText("Accuracy: " + accuracy + "%");
     }
 
-    public void showClusters(int clusters){
+    public void showClusters(int clusters) {
         this.clusters.setText("Remained Clusters: " + clusters);
     }
 
-    public void showRadioactive(int radioactive){
+    public void showRadioactive(int radioactive) {
         this.radioactive.setText("Remained Radioactive: " + radioactive);
     }
 
-    public void changeHeart(int index, int state){
+    public void changeHeart(int index, int state) {
         Image image = new Image(GameController.class.getResource("/Images/Icons/heart" + state + ".png").toString());
-        switch (index){
+        switch (index) {
             case 1:
                 heart1.setImage(image);
                 break;
@@ -62,8 +62,8 @@ public class GameController {
         }
     }
 
-    public void changeIce(int index, boolean state){
-        switch (index){
+    public void changeIce(int index, boolean state) {
+        switch (index) {
             case 1:
                 ice1.setOpacity(state ? 1 : 0.4);
                 break;
@@ -89,7 +89,7 @@ public class GameController {
         alert.setOpacity(opacity);
     }
 
-    public void showNewWaveAlert(int wave, double opacity){
+    public void showNewWaveAlert(int wave, double opacity) {
         alert.setText("Welcome to wave " + wave + "!");
         alert.setOpacity(opacity);
     }

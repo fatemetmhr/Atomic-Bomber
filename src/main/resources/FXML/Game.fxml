@@ -9,114 +9,128 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="MainPane" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GameController">
-   <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="144.0" prefWidth="347.0" spacing="10.0">
-               <children>
-                  <Label fx:id="wave" opacity="0.85" text="Wave 1">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="kills" opacity="0.65" text="Number of Kills: 0">
-                     <font>
-                        <Font name="System Bold Italic" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="accuracy" opacity="0.65" prefHeight="19.0" prefWidth="129.0" text="Accuracy: 100%">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="clusters" opacity="0.65" text="Remained Clusters: 0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="radioactive" opacity="0.65" text="Remained Radioactives: 0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="144.0" prefWidth="786.0">
-               <children>
-                  <ImageView fx:id="migAlertImage" fitHeight="60.0" fitWidth="87.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Images/Icons/mig_alert.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="alert" alignment="CENTER" contentDisplay="CENTER" opacity="0.0" prefHeight="33.0" prefWidth="323.0" text="Mig Alert">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox prefHeight="144.0" prefWidth="324.0">
-               <children>
-                  <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="411.0" spacing="10.0">
-                     <children>
-                        <ImageView fx:id="heart4" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/heart2.png" />
-                           </image>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" styleClass="MainPane" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GameController">
+    <top>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="144.0" prefWidth="347.0" spacing="10.0">
+                    <children>
+                        <Label fx:id="wave" opacity="0.85" text="Wave 1">
+                            <font>
+                                <Font name="System Bold" size="22.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="kills" opacity="0.65" text="Number of Kills: 0">
+                            <font>
+                                <Font name="System Bold Italic" size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="accuracy" opacity="0.65" prefHeight="19.0" prefWidth="129.0"
+                               text="Accuracy: 100%">
+                            <font>
+                                <Font name="System Bold" size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="clusters" opacity="0.65" text="Remained Clusters: 0">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="radioactive" opacity="0.65" text="Remained Radioactives: 0">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="144.0" prefWidth="786.0">
+                    <children>
+                        <ImageView fx:id="migAlertImage" fitHeight="60.0" fitWidth="87.0" opacity="0.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../Images/Icons/mig_alert.png"/>
+                            </image>
                         </ImageView>
-                        <ImageView fx:id="heart3" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/heart2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="heart2" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/heart2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="heart1" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/heart2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fx:id="ice1" fitHeight="39.0" fitWidth="41.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/ice.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="ice2" fitHeight="40.0" fitWidth="40.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/ice.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="ice3" fitHeight="39.0" fitWidth="40.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/ice.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="ice4" fitHeight="42.0" fitWidth="45.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/ice.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="ice5" fitHeight="48.0" fitWidth="38.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/Icons/ice.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-         <BorderPane.margin>
-            <Insets left="20.0" top="20.0" />
-         </BorderPane.margin>
-      </HBox>
-   </top>
+                        <Label fx:id="alert" alignment="CENTER" contentDisplay="CENTER" opacity="0.0" prefHeight="33.0"
+                               prefWidth="323.0" text="Mig Alert">
+                            <font>
+                                <Font name="System Bold" size="21.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox prefHeight="144.0" prefWidth="324.0">
+                    <children>
+                        <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="411.0" spacing="10.0">
+                            <children>
+                                <ImageView fx:id="heart4" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true"
+                                           preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/heart2.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="heart3" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true"
+                                           preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/heart2.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="heart2" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true"
+                                           preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/heart2.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="heart1" fitHeight="40.0" fitWidth="43.0" pickOnBounds="true"
+                                           preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/heart2.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fx:id="ice1" fitHeight="39.0" fitWidth="41.0" opacity="0.4"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/ice.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="ice2" fitHeight="40.0" fitWidth="40.0" opacity="0.4"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/ice.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="ice3" fitHeight="39.0" fitWidth="40.0" opacity="0.4"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/ice.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="ice4" fitHeight="42.0" fitWidth="45.0" opacity="0.4"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/ice.png"/>
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="ice5" fitHeight="48.0" fitWidth="38.0" opacity="0.4"
+                                           pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Images/Icons/ice.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+            <BorderPane.margin>
+                <Insets left="20.0" top="20.0"/>
+            </BorderPane.margin>
+        </HBox>
+    </top>
 </BorderPane>

@@ -11,41 +11,43 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.scene.control.PasswordField?>
-<BorderPane styleClass="MainPane" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.StartMenuController">
+<BorderPane styleClass="MainPane" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.StartMenuController">
     <center>
         <VBox alignment="CENTER" fillWidth="false" maxWidth="825.0" prefHeight="859.0" prefWidth="825.0" spacing="10.0">
             <Label styleClass="Title" stylesheets="@../CSS/style.css" text="Atomic Bomber">
-            <font>
-               <Font name="System Bold" size="60.0" />
-            </font>
-            <textFill>
-               <LinearGradient cycleMethod="REPEAT" endY="1.0" startX="0.014251781472684086">
-                  <stops>
-                     <Stop>
-                        <color>
-                           <Color />
-                        </color>
-                     </Stop>
-                     <Stop offset="1.0">
-                        <color>
-                           <Color red="1.0" green="1.0" blue="1.0" />
-                        </color>
-                     </Stop>
-                  </stops>
-               </LinearGradient>
-            </textFill></Label>
-         <Label opacity="0.0" text="Label">
-            <font>
-               <Font size="96.0" />
-            </font>
-         </Label>
-         <TextField opacity="0.0" />
-         <TextField alignment="CENTER" fx:id="username" maxWidth="200.0" promptText="Username" />
-         <PasswordField alignment="CENTER" fx:id="password" maxWidth="200.0" promptText="Password" />
-         <TextField opacity="0.0" />
-            <Button minWidth="70.0" onMouseClicked="#loginButton" text="Login" />
-            <Button minWidth="70.0" onMouseClicked="#registerButton" text="Register" />
-            <Button onMouseClicked="#startAsGuestButton" text="Start game as a guest" />
+                <font>
+                    <Font name="System Bold" size="60.0"/>
+                </font>
+                <textFill>
+                    <LinearGradient cycleMethod="REPEAT" endY="1.0" startX="0.014251781472684086">
+                        <stops>
+                            <Stop>
+                                <color>
+                                    <Color/>
+                                </color>
+                            </Stop>
+                            <Stop offset="1.0">
+                                <color>
+                                    <Color red="1.0" green="1.0" blue="1.0"/>
+                                </color>
+                            </Stop>
+                        </stops>
+                    </LinearGradient>
+                </textFill>
+            </Label>
+            <Label opacity="0.0" text="Label">
+                <font>
+                    <Font size="96.0"/>
+                </font>
+            </Label>
+            <TextField opacity="0.0"/>
+            <TextField alignment="CENTER" fx:id="username" maxWidth="200.0" promptText="Username"/>
+            <PasswordField alignment="CENTER" fx:id="password" maxWidth="200.0" promptText="Password"/>
+            <TextField opacity="0.0"/>
+            <Button minWidth="70.0" onMouseClicked="#loginButton" text="Login"/>
+            <Button minWidth="70.0" onMouseClicked="#registerButton" text="Register"/>
+            <Button onMouseClicked="#startAsGuestButton" text="Start game as a guest"/>
         </VBox>
 
     </center>

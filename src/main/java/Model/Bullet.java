@@ -2,7 +2,6 @@ package Model;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 
 public class Bullet extends Shot {
 
@@ -17,6 +16,12 @@ public class Bullet extends Shot {
     @Override
     protected boolean willDestroy(Obstacle obstacle) {
         return getBoundsInParent().intersects(obstacle.getBoundsInParent());
+    }
+
+    @Override
+    protected void remove() {
+        super.remove();
+        BulletFire bulletFire = new BulletFire((int) getX(), (int) getY() - 100, Game.getCurrentGame());
     }
 
 }

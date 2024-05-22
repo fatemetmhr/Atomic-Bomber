@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public class ObstacleBullet extends Shot{
+public class ObstacleBullet extends Shot {
 
     public static int sizeX = 166 / 8;
     public static int sizeY = 62 / 8;
@@ -22,7 +22,7 @@ public class ObstacleBullet extends Shot{
     @Override
     protected void checkForCollision() {
         Plane plane = Game.getCurrentGame().getPlane();
-        if(getBoundsInParent().intersects(plane.getBoundsInParent())){
+        if (getBoundsInParent().intersects(plane.getBoundsInParent())) {
             plane.gotDamaged();
             this.remove();
         }

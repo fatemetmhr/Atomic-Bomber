@@ -1,9 +1,7 @@
 package View;
 
-import Model.User;
-import javafx.fxml.FXML;
+import Controller.ApplicationController;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -13,8 +11,8 @@ public class MainMenuController {
     public ImageView avatar;
     public Label username;
 
-    public void initialize(){
-        username.setText(User.getLoggedInUser().getUsername());
+    public void initialize() {
+        username.setText(ApplicationController.getUsername());
         Controller.ProfileMenuController.setAvatar(avatar);
     }
 
@@ -28,7 +26,7 @@ public class MainMenuController {
 
     public void profileSettings(MouseEvent mouseEvent) {
         ProfileMenu profileMenu = new ProfileMenu();
-        try{
+        try {
             profileMenu.start(MainMenu.stage);
         } catch (Exception e) {
             e.printStackTrace();

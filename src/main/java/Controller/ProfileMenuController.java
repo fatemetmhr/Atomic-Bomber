@@ -12,15 +12,15 @@ public class ProfileMenuController {
     }
 
     public static boolean changeUsernameAndPassword(String username, String password) {
-        if(username.equals(User.getLoggedInUser().getUsername())) {
-            if(password.equals("")){
+        if (username.equals(User.getLoggedInUser().getUsername())) {
+            if (password.equals("")) {
                 AlertController.showError("Action failed!", "Password can't be empty");
                 return true;
             }
             User.getLoggedInUser().setPassword(password);
             return false;
         }
-        if(checkUsernameAndPassForNewUser(username, password))
+        if (checkUsernameAndPassForNewUser(username, password))
             return true;
         User.getLoggedInUser().setUsername(username);
         User.getLoggedInUser().setPassword(password);
@@ -28,12 +28,12 @@ public class ProfileMenuController {
     }
 
     public static boolean checkUsernameAndPassForNewUser(String username, String password) {
-        if(username.equals("") || password.equals("")) {
+        if (username.equals("") || password.equals("")) {
             AlertController.showError("Action failed!", "Username or password can not be empty");
             return true;
         }
         User user = User.getUserByUsername(username);
-        if(user != null) {
+        if (user != null) {
             AlertController.showError("Action failed!", "Username already exists");
             return true;
         }
@@ -41,7 +41,7 @@ public class ProfileMenuController {
     }
 
     public static void logoutUser() {
-        if(User.getLoggedInUser().getUsername().equals("Guest"))
+        if (User.getLoggedInUser().getUsername().equals("Guest"))
             User.deleteUser(User.getLoggedInUser());
         User.setLoggedInUser(null);
     }

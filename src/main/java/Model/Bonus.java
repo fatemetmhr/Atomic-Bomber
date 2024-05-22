@@ -10,7 +10,7 @@ public class Bonus extends Rectangle {
     private final boolean isCluster;
     private double speed = 0.7;
 
-    public Bonus(int x, int y, boolean isCluster){
+    public Bonus(int x, int y, boolean isCluster) {
         super(isCluster ? 1920 / 40 : 682 / 14, isCluster ? 1920 / 40 : 691 / 14);
         this.isCluster = isCluster;
         setX(x);
@@ -18,25 +18,25 @@ public class Bonus extends Rectangle {
         Game.getCurrentGame().getBonuses().add(this);
         Game.getCurrentGame().getPane().getChildren().add(this);
         Random random = new Random();
-        if(random.nextInt(2) == 0)
+        if (random.nextInt(2) == 0)
             speed *= -1;
         setFill(new ImagePattern(new Image(Plane.class.getResource("/Images/Icons/" + (isCluster ? "cluster" : "radioactive") + "_bonus.png").toString())));
     }
 
-    public boolean isCluster(){
+    public boolean isCluster() {
         return isCluster;
     }
 
-    private void move(){
+    private void move() {
         setY(getY() - Math.abs(speed));
         setX(getX() - 2 * speed);
     }
 
-    public void passTime(){
+    public void passTime() {
         move();
-        if(getY() < -200)
+        if (getY() < -200)
             remove();
-        if(getX() < 0 || getX() > 1291)
+        if (getX() < 0 || getX() > 1291)
             speed *= -1;
         checkForCollision();
     }
@@ -44,8 +44,8 @@ public class Bonus extends Rectangle {
     private void checkForCollision() {
         Game game = Game.getCurrentGame();
         Plane plane = game.getPlane();
-        if(getBoundsInParent().intersects(plane.getBoundsInParent())){
-            if(isCluster)
+        if (getBoundsInParent().intersects(plane.getBoundsInParent())) {
+            if (isCluster)
                 game.setRemainedClusters(game.getRemainedClusters() + 1);
             else
                 game.setRemainedRadioactive(game.getRemainedRadioactive() + 1);
@@ -53,7 +53,7 @@ public class Bonus extends Rectangle {
         }
     }
 
-    public void remove(){
+    public void remove() {
         Game.getCurrentGame().getBonuses().remove(this);
         Game.getCurrentGame().getPane().getChildren().remove(this);
     }

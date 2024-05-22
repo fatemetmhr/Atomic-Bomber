@@ -15,13 +15,13 @@ public class Mig extends Rectangle {
     private Game game;
     private double shootingBoard = 250;
 
-    public Mig(Game game){
+    public Mig(Game game) {
         super(sizeX, sizeY);
         this.game = game;
         Random random = new Random();
         speed *= random.nextInt(2) == 0 ? 1 : -1;
         setX(-2 * sizeX);
-        if(speed < 0) {
+        if (speed < 0) {
             setX(1291 + sizeX);
             setScaleX(-1);
         }
@@ -32,32 +32,32 @@ public class Mig extends Rectangle {
         shootingBoard *= ApplicationController.getGameDifficulty();
     }
 
-    public void move(){
+    public void move() {
         setX(getX() + speed);
     }
 
-    public void passTime(){
+    public void passTime() {
         move();
-        if(getX() > 1291 + sizeX || getX() < -2 * sizeX)
+        if (getX() > 1291 + sizeX || getX() < -2 * sizeX)
             remove();
         checkForShooting();
     }
 
-    public void checkForShooting(){
+    public void checkForShooting() {
         Plane plane = game.getPlane();
         double distance = Math.sqrt(Math.pow(plane.getX() - getX(), 2) + Math.pow(plane.getY() - getY(), 2));
-        if(distance < shootingBoard && game.isAnyTankBulletInFrame(this) == false)
+        if (distance < shootingBoard && game.isAnyTankBulletInFrame(this) == false)
             shoot();
     }
 
-    public void remove(){
+    public void remove() {
         game.getAllMigs().remove(this);
         game.getPane().getChildren().remove(this);
         game.resetMigTimer();
     }
 
-    public void shoot(){
-        new ObstacleBullet((int)getX() + sizeX / 2, (int)getY() + sizeY / 2, speed < 0 ? Math.PI : 0, this);
+    public void shoot() {
+        new ObstacleBullet((int) getX() + sizeX / 2, (int) getY() + sizeY / 2, speed < 0 ? Math.PI : 0, this);
     }
 
 }
