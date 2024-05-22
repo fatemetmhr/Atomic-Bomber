@@ -15,6 +15,7 @@ public class ApplicationController {
     private static int gameDifficulty = 1;
     private static boolean isWASD = false;
     private static boolean isBlackAndWhite = false;
+    private static boolean isWin = false;
 
     public static void startMusic(String path){
         if(mediaPlayer != null)
@@ -102,4 +103,12 @@ public class ApplicationController {
     public static KeyCode getRightKeyCode() {
         return isWASD ? KeyCode.D : KeyCode.RIGHT;
     }
+
+    public static void setGameResult(boolean isWin) {
+        ApplicationController.isWin = isWin;
+    }
+    public static boolean isWin() {
+        return isWin;
+    }
+
 }

@@ -30,7 +30,7 @@ public class Tank extends Obstacle{
     }
 
     private void shoot(){
-        new TankBullet((int)getX() + (speed < 0 ? 20 : 180), (int)getY() + 20, getShootingDirection(), this);
+        new ObstacleBullet((int)getX() + (speed < 0 ? 20 : 180), (int)getY() + 20, getShootingDirection(), this);
     }
 
     private double getShootingDirection() {

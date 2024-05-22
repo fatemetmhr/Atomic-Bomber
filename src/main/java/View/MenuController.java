@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ApplicationController;
 import javafx.stage.Stage;
 
 public class MenuController {
@@ -58,7 +59,8 @@ public class MenuController {
         }
     }
 
-    public static void goToGameOver(Stage stage) {
+    public static void goToGameOver(Stage stage, boolean isWin) {
+        ApplicationController.setGameResult(isWin);
         GameOver gameOver = new GameOver();
         try {
             gameOver.start(stage);

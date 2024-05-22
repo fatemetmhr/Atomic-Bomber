@@ -18,6 +18,8 @@ public class Plane extends Rectangle {
     private int bulletY = -20;
     private boolean isMirrored = false;
     private int hp;
+
+    private Timer damegingTimer;
     Image image;
 
     public Plane(Game game){
@@ -28,6 +30,7 @@ public class Plane extends Rectangle {
         speed = minSpeed;
         this.game = game;
         hp = 8;
+        damegingTimer = new Timer(1);
         setFill(new ImagePattern(new Image(Plane.class.getResource("/Images/Icons/plane.png").toString())));
     }
 
@@ -54,8 +57,10 @@ public class Plane extends Rectangle {
             setX(-sizeX);
         if(getY() < 0)
             setDir(-dir);
-        if(getY() > 849 - sizeY)
+        if(getY() > 849 - sizeY){
             setDir(-dir);
+            gotDamaged();
+        }
         checkForCollision();
     }
 
@@ -156,12 +161,17 @@ public class Plane extends Rectangle {
     }
 
     public void gotDamaged() {
+        if(damegingTimer.getTimeCounter() > 3)
+            damegingTimer = null;
+        if(damegingTimer != null)
+            return;
+        damegingTimer = new Timer(1);
+        hp--;
         if(hp == 0){
-            game.gameOver();
+            game.gameOver(false);
             return;
         }
         Controller.GameController.reduceHp(hp);
-        hp--;
     }
 
     public void setHpToMax() {

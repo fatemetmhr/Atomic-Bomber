@@ -13,7 +13,7 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="144.0" prefWidth="838.0" spacing="10.0">
+            <VBox prefHeight="144.0" prefWidth="347.0" spacing="10.0">
                <children>
                   <Label fx:id="wave" opacity="0.85" text="Wave 1">
                      <font>
@@ -42,7 +42,21 @@
                   </Label>
                </children>
             </VBox>
-            <VBox prefHeight="144.0" prefWidth="411.0">
+            <VBox alignment="TOP_CENTER" prefHeight="144.0" prefWidth="786.0">
+               <children>
+                  <ImageView fx:id="migAlertImage" fitHeight="60.0" fitWidth="87.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/Icons/mig_alert.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="alert" alignment="CENTER" contentDisplay="CENTER" opacity="0.0" prefHeight="33.0" prefWidth="323.0" text="Mig Alert">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="144.0" prefWidth="324.0">
                <children>
                   <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="411.0" spacing="10.0">
                      <children>

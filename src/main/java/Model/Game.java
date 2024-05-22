@@ -2,6 +2,7 @@ package Model;
 
 import View.MenuController;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,8 @@ public class Game {
     private int remainedRadioactive = 0;
     private ArrayList<Bonus> Bonuses = new ArrayList<>();
     public boolean noTimePassing = false;
+    private ArrayList<Mig> allMigs = new ArrayList<>();
+    private Timer migTimer;
 
 
     public Game(User user, Pane root) {
@@ -37,17 +40,20 @@ public class Game {
         root.getChildren().add(plane);
         ice = 0;
         createWave();
+        migTimer = new Timer(1);
     }
 
     private void createWave() {
-        View.GameController gameController = View.Game.gameController;
-        gameController.showWave(wave);
+        Controller.GameController.setShowWave(true);
+        Controller.GameController.showNewWave(wave);
         Building building = new Building(this, 950, 600);
         building = new Building(this, 400, 550);
         Bunker bunker = new Bunker(this, 670, 650);
         Tree tree = new Tree(this, 30, 650);
         tree = new Tree(this, 1100, 630);
         tree = new Tree(this, 530, 650);
+        if(wave == 3)
+            migTimer.reset();
     }
 
 
@@ -209,14 +215,14 @@ public class Game {
         return new ArrayList<>(Bonuses);
     }
 
-    public void gameOver() {
+    public void gameOver(boolean isWin) {
         Controller.GameController.gameOver();
-        MenuController.goToGameOver(View.Game.stage);
+        MenuController.goToGameOver(View.Game.stage, isWin);
     }
 
-    public boolean isAnyTankBulletInFrame(Tank tank) {
+    public boolean isAnyTankBulletInFrame(Rectangle rectangle) {
         for (Shot shot : allShots)
-            if(shot instanceof TankBullet && ((TankBullet) shot).getTank() == tank){
+            if(shot instanceof ObstacleBullet && ((ObstacleBullet) shot).getOwner() == rectangle){
                 return true;
             }
         return false;
@@ -242,6 +248,9 @@ public class Game {
     }
 
     public void nextWave() {
+        if(wave == 3) {
+            gameOver(true);
+        }
         noTimePassing = true;
         removeLastWave();
         wave++;
@@ -262,5 +271,27 @@ public class Game {
         downDown = false;
         leftKey = false;
         rightKey = false;
+    }
+
+    public ArrayList<Mig> getAllMigs() {
+        return allMigs;
+    }
+
+    public void addMig() {
+        Mig mig = new Mig(this);
+    }
+
+    public int getMigTimerTime(){
+        if(migTimer == null)
+            return -1;
+        return migTimer.getTimeCounter();
+    }
+
+    public void resetMigTimer() {
+        migTimer.reset();
+    }
+
+    public ArrayList<Mig> getAllMigsCopy() {
+        return new ArrayList<>(allMigs);
     }
 }

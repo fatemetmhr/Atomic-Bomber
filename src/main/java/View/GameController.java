@@ -20,6 +20,8 @@ public class GameController {
     public Label accuracy;
     public Label clusters;
     public Label radioactive;
+    public ImageView migAlertImage;
+    public Label alert;
 
     public void initialize(){
         Game.gameController = this;
@@ -79,5 +81,16 @@ public class GameController {
                 break;
         }
 
+    }
+
+    public void showMigAlert(double opacity) {
+        alert.setText("Mig Alert!");
+        migAlertImage.setOpacity(opacity);
+        alert.setOpacity(opacity);
+    }
+
+    public void showNewWaveAlert(int wave, double opacity){
+        alert.setText("Welcome to wave " + wave + "!");
+        alert.setOpacity(opacity);
     }
 }

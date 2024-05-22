@@ -10,7 +10,7 @@ public class GameOverController {
     public Label accuracy;
 
     public void initialize() {
-        wave.setText("Your plane destroyed in wave " + Model.Game.getCurrentGame().getWave());
+        wave.setText("Your plane reached wave " + Model.Game.getCurrentGame().getWave());
         kills.setText("Number of kills: " + Model.Game.getCurrentGame().getKills());
         accuracy.setText("Accuracy: " + Model.Game.getCurrentGame().getAccuracy());
     }

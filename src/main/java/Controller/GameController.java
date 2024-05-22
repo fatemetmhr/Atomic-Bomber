@@ -2,7 +2,6 @@ package Controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -14,6 +13,10 @@ public class GameController {
 
 
     public static Timeline gameTimeLine;
+    private static int migTimePassing = 10;
+    private static boolean migAlert = false;
+    private static Timer alertTimer;
+    private static boolean showWave = false;
 
 
     public static void setGameSettings(Pane root) {
@@ -31,34 +34,45 @@ public class GameController {
 
     private static void passTime() {
         Game game = Game.getCurrentGame();
-        if(game == null || game.noTimePassing)
+        if(showWave)
+            showNewWave(game.getWave());
+        if (game == null || game.noTimePassing)
             return;
-        if(!game.isAnyMovingObstacleInFrame()) {
+        if (!game.isAnyMovingObstacleInFrame()) {
             Random random = new Random();
             int randomInt = random.nextInt(2);
-            if(randomInt == 0 && game.numberOfTanks() < 3)
+            if (randomInt == 0 && game.numberOfTanks() < 3)
                 game.addTank();
-            if(randomInt == 1 && game.numberOfTrucks() < 2)
+            if (randomInt == 1 && game.numberOfTrucks() < 2)
                 game.addTruck();
         }
-        Game.getCurrentGame().getPlane().passTime();
-        for (Shot shot : Game.getCurrentGame().getShotsCopy()) {
+        if (game.getWave() == 3 && game.getAllMigs().size() < 1){
+            int neededTime = (int)(migTimePassing * ((4.0 - ApplicationController.getGameDifficulty() + 1) / 4));
+            if(game.getMigTimerTime() >= neededTime) {
+                game.addMig();
+            }
+            GameController.showMigAlert(neededTime - game.getMigTimerTime());
+        }
+        game.getPlane().passTime();
+        for (Shot shot : game.getShotsCopy()) {
             shot.passTime();
         }
         try{
-            for (Obstacle obstacle : Game.getCurrentGame().getAllObstaclesCopy()) {
+            for (Obstacle obstacle : game.getAllObstaclesCopy()) {
                 obstacle.passTime();
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.toString());
             System.out.println(e.getMessage());
-            System.out.println(Game.getCurrentGame().getAllObstacles().size());
+            System.out.println(game.getAllObstacles().size());
         }
 
-        for(Bonus bonus : Game.getCurrentGame().getBonusesCopy()){
+        for(Bonus bonus : game.getBonusesCopy())
             bonus.passTime();
-        }
+
+        for(Mig mig : game.getAllMigsCopy())
+            mig.passTime();
 
         View.GameController gameController = View.Game.gameController;
         gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
@@ -66,6 +80,20 @@ public class GameController {
         if(game.getKills() >= 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false){
             game.nextWave();
         }
+    }
+
+    private static void showMigAlert(int left) {
+        if(left == 0){
+            View.Game.gameController.showMigAlert(0);
+            migAlert = false;
+            return;
+        }
+        if(left > 3)
+            return;
+        if(!migAlert)
+            alertTimer = new Timer(1.0 / 360);
+        migAlert = true;
+        View.Game.gameController.showMigAlert((Math.cos(Math.toRadians(alertTimer.getTimeCounter())) + 1) / 2);
     }
 
     public static void keyPressed(KeyCode code) {
@@ -144,6 +172,24 @@ public class GameController {
         for(int i = 0; i < 4; i++){
             View.Game.gameController.changeHeart(i + 1, 2);
         }
+    }
+
+    public static void showNewWave(int wave) {
+        View.GameController gameController = View.Game.gameController;
+        gameController.showWave(wave);
+        if(alertTimer == null)
+            alertTimer = new Timer(1.0 / 360);
+        if(alertTimer.getTimeCounter() > 3 * 360) {
+            alertTimer = null;
+            showWave = false;
+            View.Game.gameController.showNewWaveAlert(wave, 0);
+            return;
+        }
+        View.Game.gameController.showNewWaveAlert(wave, 1);
+    }
+
+    public static void setShowWave(boolean b) {
+        showWave = b;
     }
 }
 

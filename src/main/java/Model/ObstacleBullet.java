@@ -3,18 +3,19 @@ package Model;
 import Controller.ApplicationController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 
-public class TankBullet extends Shot{
+public class ObstacleBullet extends Shot{
 
-    public static int sizeX = 166 / 10;
-    public static int sizeY = 62 / 10;
+    public static int sizeX = 166 / 8;
+    public static int sizeY = 62 / 8;
 
-    private Tank tank;
+    private Rectangle owner;
 
-    public TankBullet(int x, int y, double dir, Tank tank) {
+    public ObstacleBullet(int x, int y, double dir, Rectangle owner) {
         super(x, y, dir, sizeX, sizeY);
-        this.tank = tank;
-        speedY *= ApplicationController.getGameDifficulty() * 2;
+        this.owner = owner;
+        speedY *= (2 + ApplicationController.getGameDifficulty() / 10.0);
         setFill(new ImagePattern(new Image(Bullet.class.getResource("/Images/Icons/tank_bullet.png").toString())));
     }
 
@@ -27,7 +28,8 @@ public class TankBullet extends Shot{
         }
     }
 
-    public Tank getTank() {
-        return tank;
+
+    public Rectangle getOwner() {
+        return owner;
     }
 }

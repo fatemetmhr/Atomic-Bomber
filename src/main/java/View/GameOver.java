@@ -15,7 +15,7 @@ public class GameOver extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         GameOver.stage = stage;
-        URL url = MainMenu.class.getResource("/FXML/GameOver.fxml");
+        URL url = MainMenu.class.getResource("/FXML/" + (ApplicationController.isWin() ? "Win" : "Loose") + ".fxml");
         Pane root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
         ApplicationController.applyColorAffects(scene);
