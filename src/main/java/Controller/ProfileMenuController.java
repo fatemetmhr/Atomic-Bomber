@@ -47,6 +47,6 @@ public class ProfileMenuController {
     }
 
     public static void setAvatar(ImageView avatar) {
-        avatar.setImage(User.getLoggedInUser().getAvatar().getImage());
+        avatar.setImage(User.getLoggedInUser().getImage());
     }
 }

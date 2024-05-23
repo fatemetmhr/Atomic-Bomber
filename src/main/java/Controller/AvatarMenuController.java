@@ -9,7 +9,8 @@ import javafx.scene.image.ImageView;
 public class AvatarMenuController {
     public static void addAllAvatars(ChoiceBox avatarChooser) {
         Avatar.addAllElements(avatarChooser);
-        avatarChooser.setValue(User.getLoggedInUser().getAvatar().name());
+        if (User.getLoggedInUser().getAvatar() != null)
+            avatarChooser.setValue(User.getLoggedInUser().getAvatar().name());
     }
 
     public static void setNewAvatar(ImageView avatarView, String value) {
@@ -22,7 +23,8 @@ public class AvatarMenuController {
         }
     }
 
-    public static void setAvatarImage(Image image) {
+    public static void setAvatarImage(Image image, ImageView avatarView) {
         User.getLoggedInUser().setImage(image);
+        avatarView.setImage(image);
     }
 }

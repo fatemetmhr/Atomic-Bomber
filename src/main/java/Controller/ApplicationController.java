@@ -16,10 +16,14 @@ public class ApplicationController {
     private static boolean isWASD = false;
     private static boolean isBlackAndWhite = false;
     private static boolean isWin = false;
+    private static String lastMusicPath = null;
 
     public static void startMusic(String path) {
-        if (mediaPlayer != null)
+        if (lastMusicPath != null && lastMusicPath.equals(path))
             return;
+        if (mediaPlayer != null)
+            mediaPlayer.stop();
+        lastMusicPath = path;
         try {
             Media media = new Media(path);
             mediaPlayer = new MediaPlayer(media);
@@ -117,5 +121,9 @@ public class ApplicationController {
 
     public static String getPassword() {
         return User.getLoggedInUser().getPassword();
+    }
+
+    public static void setIsWin(boolean isWin) {
+        ApplicationController.isWin = isWin;
     }
 }

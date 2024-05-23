@@ -1,6 +1,8 @@
 package Model;
 
+import Controller.ApplicationController;
 import Controller.GameController;
+import View.StartMenu;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -47,6 +49,8 @@ public class Game {
     }
 
     private void createWave() {
+        Controller.ApplicationController.startMusic(StartMenu.class.getResource(
+                "/Sounds/Background/" + (wave == 1 ? "cave" : (wave == 2 ? "dungeon" : "boss")) + ".mp3").toString());
         Controller.GameController.setShowWave(true);
         Controller.GameController.showNewWave(wave);
         Building building = new Building(this, 950, 600);
@@ -219,6 +223,7 @@ public class Game {
     }
 
     public void gameOver(boolean isWin) {
+        ApplicationController.setIsWin(isWin);
         Controller.GameController.gameOver();
     }
 
@@ -252,6 +257,7 @@ public class Game {
     public void nextWave() {
         if (wave == 3) {
             gameOver(true);
+            return;
         }
         noTimePassing = true;
         removeLastWave();
@@ -314,4 +320,15 @@ public class Game {
         return new ArrayList<>(allBurningAnimations);
     }
 
+    public boolean isIceFull() {
+        return ice == 5;
+    }
+
+    public void emptyIce() {
+        ice = 0;
+    }
+
+    public void setIceFull() {
+        ice = 5;
+    }
 }

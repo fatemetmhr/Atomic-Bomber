@@ -1,6 +1,7 @@
 package Model;
 
 import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 
@@ -61,6 +62,7 @@ public class User {
     }
 
     public void setAvatar(Avatar avatar) {
+        image = null;
         this.avatar = avatar;
     }
 
@@ -72,6 +74,6 @@ public class User {
 
 
     public Image getImage() {
-        return image == null ? avatar.getImage() : image;
+        return avatar != null ? avatar.getImage() : image;
     }
 }

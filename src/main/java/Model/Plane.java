@@ -139,8 +139,10 @@ public class Plane extends Rectangle {
         if (game.getRemainedClusters() == 0) {
             return;
         }
+        Bullet bullet;
         for (int i = 0; i < 6; i++) {
-            Bullet bullet = new Bullet((int) getX() + (sizeX / 2), (int) (getY() + (sizeY / 2)), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
+            bullet = new Bullet((int) getX() + (sizeX / 2), (int) (getY() + (sizeY / 2)), dir + (isMirrored ? -1 : 1) * Math.PI / 6 * i);
+            bullet.setIsFromCluster(true);
         }
         game.increaseShoots();
         game.setRemainedClusters(game.getRemainedClusters() - 1);

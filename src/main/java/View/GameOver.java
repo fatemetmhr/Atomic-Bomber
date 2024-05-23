@@ -22,5 +22,8 @@ public class GameOver extends Application {
         ApplicationController.applyColorAffects(scene);
         stage.setScene(scene);
         stage.show();
+        Controller.ApplicationController.startMusic(StartMenu.class.getResource(
+                "/Sounds/Background/" + (ApplicationController.isWin() ? "win.mp4" : "game_over.mp3")).toString());
+
     }
 }

@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.ApplicationController;
+import Controller.GameController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
@@ -22,6 +23,8 @@ public class Tank extends Obstacle {
     }
 
     public void checkForShooting() {
+        if (GameController.isGameFreezed())
+            return;
         Plane plane = game.getPlane();
         double distance = Math.sqrt(Math.pow(plane.getX() - getX(), 2) + Math.pow(plane.getY() - getY(), 2));
         if (distance < shootingBoard && game.isAnyTankBulletInFrame(this) == false && game.getWave() > 1) {

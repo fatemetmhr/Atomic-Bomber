@@ -23,7 +23,6 @@ public class StartMenu extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        Controller.ApplicationController.startMusic(StartMenu.class.getResource("/Sounds/Background/music.wav").toString());
-
+        Controller.ApplicationController.startMusic(StartMenu.class.getResource("/Sounds/Background/main.mp3").toString());
     }
 }

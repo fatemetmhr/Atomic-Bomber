@@ -1,6 +1,9 @@
 package Model;
 
+import Controller.ApplicationController;
+import Controller.GameController;
 import javafx.scene.shape.Rectangle;
+
 import java.util.ArrayList;
 
 public abstract class Obstacle extends Rectangle {
@@ -32,6 +35,8 @@ public abstract class Obstacle extends Rectangle {
     }
 
     public void move() {
+        if (GameController.isGameFreezed())
+            return;
         setX(getX() + speed);
     }
 

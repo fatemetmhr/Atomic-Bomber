@@ -1,6 +1,7 @@
 package Model;
 
 import Controller.ApplicationController;
+import Controller.GameController;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -33,6 +34,8 @@ public class Mig extends Rectangle {
     }
 
     public void move() {
+        if (GameController.isGameFreezed())
+            return;
         setX(getX() + speed);
     }
 
@@ -44,6 +47,8 @@ public class Mig extends Rectangle {
     }
 
     public void checkForShooting() {
+        if (GameController.isGameFreezed())
+            return;
         Plane plane = game.getPlane();
         double distance = Math.sqrt(Math.pow(plane.getX() - getX(), 2) + Math.pow(plane.getY() - getY(), 2));
         if (distance < shootingBoard && game.isAnyTankBulletInFrame(this) == false)

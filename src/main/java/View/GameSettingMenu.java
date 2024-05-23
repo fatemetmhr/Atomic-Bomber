@@ -22,6 +22,8 @@ public class GameSettingMenu extends Application {
         ApplicationController.applyColorAffects(scene);
         stage.setScene(scene);
         stage.show();
+        Controller.ApplicationController.startMusic(StartMenu.class.getResource("/Sounds/Background/safe.mp3").toString());
+
     }
 
 }

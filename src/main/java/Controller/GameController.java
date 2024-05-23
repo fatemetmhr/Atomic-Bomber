@@ -2,12 +2,14 @@ package Controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import Model.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
@@ -18,6 +20,9 @@ public class GameController {
     private static boolean migAlert = false;
     private static Timer alertTimer;
     private static boolean showWave = false;
+    private static boolean gameIsFreezed = false;
+    private static Timer freezingTimer;
+    private static ArrayList<ImageView> freezeImages = new ArrayList<>();
 
 
     public static void setGameSettings(Pane root) {
@@ -40,6 +45,12 @@ public class GameController {
             showNewWave(game.getWave());
         if (game == null || game.noTimePassing)
             return;
+        game.getPlane().passTime();
+        for (Shot shot : game.getShotsCopy()) {
+            shot.passTime();
+        }
+        for (Bonus bonus : game.getBonusesCopy())
+            bonus.passTime();
         if (!game.isAnyMovingObstacleInFrame()) {
             Random random = new Random();
             int randomInt = random.nextInt(2);
@@ -48,16 +59,12 @@ public class GameController {
             if (randomInt == 1 && game.numberOfTrucks() < 2)
                 game.addTruck();
         }
-        if (game.getWave() == 3 && game.getAllMigs().size() < 1) {
+        if (game.getWave() == 3 && game.getAllMigs().size() < 1 && !gameIsFreezed) {
             int neededTime = (int) (migTimePassing * ((4.0 - ApplicationController.getGameDifficulty() + 1) / 4));
             if (game.getMigTimerTime() >= neededTime) {
                 game.addMig();
             }
             GameController.showMigAlert(neededTime - game.getMigTimerTime());
-        }
-        game.getPlane().passTime();
-        for (Shot shot : game.getShotsCopy()) {
-            shot.passTime();
         }
         try {
             for (Obstacle obstacle : game.getAllObstaclesCopy()) {
@@ -69,9 +76,6 @@ public class GameController {
             System.out.println(e.getMessage());
             System.out.println(game.getAllObstacles().size());
         }
-
-        for (Bonus bonus : game.getBonusesCopy())
-            bonus.passTime();
 
         for (Mig mig : game.getAllMigsCopy())
             mig.passTime();
@@ -86,6 +90,10 @@ public class GameController {
                 burningAnimation.remove();
         }
 
+        if (isGameFreezed() && freezingTimer.getTimeCounter() > 3) {
+            unfreezeGame();
+        }
+
         if (game.isPlaneBurning && game.getPlane().getBurningTime() > 2) {
             game.gameOver(false);
             return;
@@ -94,7 +102,7 @@ public class GameController {
         View.GameController gameController = View.Game.gameController;
         gameController.showKillsAndAccuracy(game.getKills(), game.getAccuracy());
 
-        if (game.getKills() >= 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false) {
+        if (game.getKills() >= game.getWave() * 5 + (game.getWave() + 2) * 7 && game.isAnyStaticObstacleInFrame() == false) {
             game.nextWave();
         }
     }
@@ -152,7 +160,19 @@ public class GameController {
         if (code == KeyCode.P) {
             game.nextWave();
         }
+        if (code == KeyCode.TAB) {
+            GameController.freezeGame();
+        }
+        if (code == KeyCode.F) {
+            GameController.fullIce();
+        }
 
+    }
+
+    private static void fullIce() {
+        Game.getCurrentGame().setIceFull();
+        for (int i = 1; i <= 5; i++)
+            View.Game.gameController.changeIce(i, true);
     }
 
     public static void keyReleased(KeyCode code) {
@@ -207,6 +227,40 @@ public class GameController {
 
     public static void setShowWave(boolean b) {
         showWave = b;
+    }
+
+    public static void freezeGame() {
+        if (!Game.getCurrentGame().isIceFull())
+            return;
+        freezingTimer = new Timer(1);
+        freezeImages.clear();
+        gameIsFreezed = true;
+        Game.getCurrentGame().emptyIce();
+        for (int i = 1; i <= 5; i++)
+            View.Game.gameController.changeIce(i, false);
+        int x = 0, sizeX = 1271 / 3;
+        while (x < 1291 + sizeX) {
+            ImageView freez = new ImageView(GameController.class.getResource("/Images/Icons/freeze.png").toString());
+            freez.setFitWidth(1271 / 3);
+            freez.setFitHeight(586 / 3);
+            freez.setX(x - 10);
+            freez.setY(0);
+            Game.getCurrentGame().getPane().getChildren().add(freez);
+            x += sizeX - 10;
+            freezeImages.add(freez);
+        }
+    }
+
+    public static void unfreezeGame() {
+        freezingTimer = null;
+        gameIsFreezed = false;
+        for (ImageView imageView : freezeImages)
+            Game.getCurrentGame().getPane().getChildren().remove(imageView);
+        freezeImages.clear();
+    }
+
+    public static boolean isGameFreezed() {
+        return gameIsFreezed;
     }
 }
 
