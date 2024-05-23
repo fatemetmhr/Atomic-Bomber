@@ -28,6 +28,8 @@ public class ApplicationController {
             Media media = new Media(path);
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            if(isSoundMuted())
+                mediaPlayer.setMute(true);
             mediaPlayer.play();
         } catch (Exception e) {
             e.printStackTrace();
